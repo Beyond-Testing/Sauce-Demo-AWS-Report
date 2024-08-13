@@ -26,6 +26,7 @@ export default defineConfig({
             'html',
             {
                 open: 'never',
+                outputFolder: 'playwright-report',
             },
         ],
         ['list'],
