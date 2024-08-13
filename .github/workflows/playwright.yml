@@ -32,6 +32,9 @@ jobs:
               with:
                   name: playwright-report
                   path: playwright-report
+            # Debugging step
+            - name: List files
+              run: ls -R
 
             - name: Send Email with Report Link
               if: always()
