@@ -57,12 +57,6 @@ jobs:
                   echo $REPORT_URL > url.txt
                   echo "Report URL: $REPORT_URL"
 
-            - name: Create URL file
-              if: always()
-              run: |
-                  REPORT_URL="https://${{ vars.AWS_S3_BUCKET }}.s3.${{ vars.AWS_REGION }}.amazonaws.com/${{ env.REPORT_DIR }}/index.html"
-                  echo $REPORT_URL > url.txt
-                  echo "Report URL: $REPORT_URL"
             - name: Setup Job Summary
               if: always()
               run: |
