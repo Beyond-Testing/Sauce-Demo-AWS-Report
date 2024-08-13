@@ -1,14 +1,23 @@
 {
-  "name": "playwrightproject",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {},
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "@playwright/test": "^1.42.1",
-    "@types/node": "^20.11.29"
-  }
+    "name": "sauce_demo_playwright_typescript",
+    "version": "1.0.0",
+    "description": "This project is designed for UI testing purposes using the Page Object Model (POM) architecture. The POM pattern facilitates the creation of maintainable and scalable test automation code by organizing the UI elements and interactions into reusable page classes. This object-oriented approach (OOP) ensures that the testing code is easy to understand, modify, and extend as the application evolves.",
+    "main": "dist/index.js",
+    "scripts": {
+        "build": "tsc",
+        "start": "node dist/index.js",
+        "test": "playwright test",
+        "report": "playwright show-report",
+        "codegen": "playwright codegen"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "@faker-js/faker": "^8.4.1",
+        "@playwright/test": "^1.42.1",
+        "@types/node": "^20.14.14",
+        "ts-node": "^10.9.2",
+        "typescript": "^5.5.4"
+    }
 }
