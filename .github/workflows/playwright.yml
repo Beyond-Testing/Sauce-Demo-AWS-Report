@@ -33,8 +33,8 @@ jobs:
                   name: playwright-report
                   path: playwright-report
 #Debug directory
-            - name: List contents of working directory
-              run: ls -alh
+            - name: List all files and directories recursively
+              run: find . -type d -or -type f
 
             - name: Configure AWS Credentials
               uses: aws-actions/configure-aws-credentials@v4
