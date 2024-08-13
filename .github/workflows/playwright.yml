@@ -32,6 +32,9 @@ jobs:
               with:
                   name: playwright-report
                   path: playwright-report
+#Debug directory
+            - name: List contents of working directory
+              run: ls -alh
 
             - name: Configure AWS Credentials
               uses: aws-actions/configure-aws-credentials@v4
