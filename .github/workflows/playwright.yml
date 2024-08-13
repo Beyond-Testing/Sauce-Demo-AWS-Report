@@ -83,5 +83,4 @@ jobs:
                       "https://${{ vars.AWS_S3_BUCKET }}.s3.${{ vars.AWS_REGION }}.amazonaws.com/${{ env.REPORT_DIR }}/index.html"
 
                   to: netanelharush2@gmail.com
-                  from: GitHub Actions <netanelharush2@gmail.com>
-                  attachments: 'playwright-report/index.html'
+                  from: GitHub Actions <netanel@beyondtesting.info>
