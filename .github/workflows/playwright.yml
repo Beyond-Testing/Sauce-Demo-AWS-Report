@@ -1,83 +1,89 @@
 name: Playwright Tests
 
 on:
-    push:
-        branches:
-            - main
-    pull_request:
-        branches:
-            - main
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
-    build:
-        runs-on: ubuntu-latest
-        environment: GMAIL_SMTP
+  build:
+    runs-on: ubuntu-latest
+    environment: GMAIL_SMTP
 
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v4
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-            - name: Set up Docker Buildx
-              uses: docker/setup-buildx-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
-            - name: Build Docker image
-              run: docker build -t my-playwright-tests .
+      - name: Build Docker image
+        run: docker build -t my-playwright-tests .
 
-            - name: Run Playwright tests
-              run: docker run --rm my-playwright-tests
+      - name: Run Playwright tests
+        run: |
+          docker run --rm \
+            -v $(pwd)/playwright-report:/usr/src/app/reports/playwright-report \
+            my-playwright-tests
 
-            - name: Upload Playwright report
-              if: always()
-              uses: actions/upload-artifact@v4
-              with:
-                name: playwright-report
-                path: ./playwright-report
-#Debug directory
-            - name: List all files and directories recursively
-              run: find . -type d -or -type f
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: ./playwright-report
 
-            - name: Configure AWS Credentials
-              uses: aws-actions/configure-aws-credentials@v4
-              if: always()
-              with:
-                  role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
-                  aws-region: ${{ vars.AWS_REGION }}
-            - name: Upload to S3 bucket
-              id: S3
-              if: always()
-              env:
-                  REPORT_DIR: playwright-report-${{ github.run_id }}
-              run: |
-                  echo "REPORT_DIR=$REPORT_DIR" >> $GITHUB_ENV
-                  aws s3 cp playwright-report/. s3://${{ vars.AWS_S3_BUCKET }}/$REPORT_DIR --recursive
-            - name: Create URL file
-              if: always()
-              run: |
-                  REPORT_URL="https://${{ vars.AWS_S3_BUCKET }}.s3.${{ vars.AWS_REGION }}.amazonaws.com/${{ env.REPORT_DIR }}/index.html"
-                  echo $REPORT_URL > url.txt
-                  echo "Report URL: $REPORT_URL"
+      # Debug directory
+      - name: List all files and directories recursively
+        run: find . -type d -or -type f
 
-            - name: Setup Job Summary
-              if: always()
-              run: |
-                  REPORT_URL="https://${{ vars.AWS_S3_BUCKET }}.s3.${{ vars.AWS_REGION }}.amazonaws.com/${{ env.REPORT_DIR }}/index.html"
-                  echo " 🔗 [View Playwright Report]($REPORT_URL)" >> $GITHUB_STEP_SUMMARY
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        if: always()
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION }}
 
-            - name: Send Email with Report Link
-              if: always()
-              uses: dawidd6/action-send-mail@v3
-              with:
-                  server_address: ${{ secrets.SMTP_SERVER }}
-                  server_port: ${{ secrets.SMTP_PORT }}
-                  username: ${{ secrets.SMTP_USERNAME }}
-                  password: ${{ secrets.SMTP_PASSWORD }}
-                  subject: Playwright Test Report
-                  body: |
-                      The Playwright tests have completed.
+      - name: Upload to S3 bucket
+        id: S3
+        if: always()
+        env:
+          REPORT_DIR: playwright-report-${{ github.run_id }}
+        run: |
+          echo "REPORT_DIR=$REPORT_DIR" >> $GITHUB_ENV
+          aws s3 cp playwright-report/. s3://${{ vars.AWS_S3_BUCKET }}/$REPORT_DIR --recursive
 
-                      You can view the HTML report at the following link:
+      - name: Create URL file
+        if: always()
+        run: |
+          REPORT_URL="https://${{ vars.AWS_S3_BUCKET }}.s3.${{ vars.AWS_REGION }}.amazonaws.com/${{ env.REPORT_DIR }}/index.html"
+          echo $REPORT_URL > url.txt
+          echo "Report URL: $REPORT_URL"
 
-                      "https://${{ vars.AWS_S3_BUCKET }}.s3.${{ vars.AWS_REGION }}.amazonaws.com/${{ env.REPORT_DIR }}/index.html"
+      - name: Setup Job Summary
+        if: always()
+        run: |
+          REPORT_URL="https://${{ vars.AWS_S3_BUCKET }}.s3.${{ vars.AWS_REGION }}.amazonaws.com/${{ env.REPORT_DIR }}/index.html"
+          echo " 🔗 [View Playwright Report]($REPORT_URL)" >> $GITHUB_STEP_SUMMARY
 
-                  to: netanelharush2@gmail.com
-                  from: GitHub Actions <netanel@beyondtesting.info>
+      - name: Send Email with Report Link
+        if: always()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: ${{ secrets.SMTP_SERVER }}
+          server_port: ${{ secrets.SMTP_PORT }}
+          username: ${{ secrets.SMTP_USERNAME }}
+          password: ${{ secrets.SMTP_PASSWORD }}
+          subject: Playwright Test Report
+          body: |
+            The Playwright tests have completed.
+
+            You can view the HTML report at the following link:
+
+            "https://${{ vars.AWS_S3_BUCKET }}.s3.${{ vars.AWS_REGION }}.amazonaws.com/${{ env.REPORT_DIR }}/index.html"
+
+          to: netanelharush2@gmail.com
+          from: GitHub Actions <netanel@beyondtesting.info>
