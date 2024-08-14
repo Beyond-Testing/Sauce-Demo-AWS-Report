@@ -15,7 +15,7 @@ This project automates UI testing for the Sauce Demo application using Playwrigh
 -   **`.github/workflows/`**: Contains YAML files defining CI/CD pipelines.
 -   **`src/`**: Source code for the application and test scripts.
 -   **`Dockerfile`**: Specifies the Docker image configuration for running Playwright tests.
--   **`playwright.config.js`**: Configuration file for Playwright, defining test settings, browsers, and other options.
+-   **`playwright.config.ts`**: Configuration file for Playwright, defining test settings, browsers, and other options.
 
 ## Workflow YAML File
 
