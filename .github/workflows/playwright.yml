@@ -106,6 +106,12 @@ jobs:
               with:
                   name: report-url
 
+            - name: Read REPORT_URL from file
+              id: read_report_url
+              run: |
+                  REPORT_URL=$(cat url.txt)
+                  echo "REPORT_URL=$REPORT_URL" >> $GITHUB_ENV
+
             - name: Send Email with Report Link
               if: always()
               uses: dawidd6/action-send-mail@v3
