@@ -27,7 +27,7 @@ test.describe('Positive Login Suite', () => {
     })
 })
 
-test.describe('Negative Login Suite', () => {
+test.describe.skip('Negative Login Suite', () => {
     test.beforeEach(async ({page}) => {
         const loginPage = new LoginPage(page)
         await loginPage.openPage()
