@@ -15,7 +15,6 @@ on:
 jobs:
     build:
         runs-on: ubuntu-latest
-        environment: GMAIL_SMTP
 
         steps:
             - name: Checkout code

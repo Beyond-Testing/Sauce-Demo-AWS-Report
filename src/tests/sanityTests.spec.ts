@@ -10,7 +10,7 @@ import {CheckoutOverviewPage} from '../pages/CheckoutOverviewPage'
 import {CheckoutCompletePage} from '../pages/CheckoutCompletePage'
 import {validateURL} from '../helpers/utils'
 
-test.describe.skip('Sanity Tests', () => {
+test.describe('Sanity Tests', () => {
     test.beforeEach(async ({page}) => {
         await page.goto(url.basePage)
     })
