@@ -112,6 +112,12 @@ jobs:
                   REPORT_URL=$(cat url.txt)
                   echo "REPORT_URL=$REPORT_URL" >> $GITHUB_ENV
 
+            - name: Generate Email Body
+              run: |
+                  echo "<p>The Playwright tests have completed.</p>" > email_body.html
+                  echo "<p>You can view the HTML report at the following link:</p>" >> email_body.html
+                  echo "<a href=\"${{ env.REPORT_URL }}\">View the Playwright Test Report</a>" >> email_body.html
+
             - name: Send Email with Report Link
               if: always()
               uses: dawidd6/action-send-mail@v3
@@ -121,9 +127,6 @@ jobs:
                   username: ${{ secrets.ORG_SMTP_USERNAME }}
                   password: ${{ secrets.ORG_SMTP_PASSWORD }}
                   subject: Playwright Test Report
-                  body: |
-                      <p>The Playwright tests have completed.</p>
-                      <p>You can view the HTML report at the following link:</p>
-                      <a href="${{ env.REPORT_URL }}">View the Playwright Test Report</a>
+                  html_body: file://./email_body.html
                   to: ${{ secrets.REPORT_RECIPIENT_EMAIL }}
                   from: 'GitHub Actions <${{ secrets.ORG_SMTP_USERNAME }}>'
