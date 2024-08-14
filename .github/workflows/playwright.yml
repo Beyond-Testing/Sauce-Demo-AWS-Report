@@ -36,27 +36,13 @@ jobs:
                   name: playwright-report
                   path: ./playwright-report
 
-            - name: Check contents of workspace
-              run: ls -la ./
-
-            - name: View contents of all files in the workspace
-              run: |
-                  for file in $(find . -type f); do
-                    echo "Contents of $file:"
-                    cat $file
-                    echo "-------------------------------------"
-                  done
-
-            # Debug directory
-            - name: List all files and directories recursively
-              run: find . -type d -or -type f
-
             - name: Configure AWS Credentials
               uses: aws-actions/configure-aws-credentials@v4
               if: always()
               with:
                   role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
                   aws-region: ${{ vars.AWS_REGION }}
+                  audience: ${{vars.AWS_AUDIENCE}}
 
             - name: Upload to S3 bucket
               id: S3
