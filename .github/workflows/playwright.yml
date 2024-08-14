@@ -26,7 +26,7 @@ jobs:
       - name: Run Playwright tests
         run: |
           docker run --rm \
-            -v $(pwd)/playwright-report:/usr/src/app/reports/playwright-report \
+            -v $(pwd)/playwright-report:/usr/src/app/playwright-report \
             my-playwright-tests
 
       - name: Upload Playwright report
