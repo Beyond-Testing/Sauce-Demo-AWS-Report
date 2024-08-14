@@ -1,4 +1,4 @@
-# Sauce-Demo Project with Docker and S3 Bucket
+# Sauce-Demo AWS Report
 
 ## Description
 
@@ -64,7 +64,7 @@ The test architecture is designed to be scalable and maintainable, consisting of
     npm install
     ```
 3. Build Docker image and run tests:
-   ```bash
-	docker build -t my-playwright-tests .
-	docker run --rm -v $(pwd)/playwright-report:/usr/src/app/playwright-report my-playwright-tests
-	```
+    ```bash
+    docker build -t my-playwright-tests .
+    docker run --rm -v $(pwd)/playwright-report:/usr/src/app/playwright-report my-playwright-tests
+    ```
