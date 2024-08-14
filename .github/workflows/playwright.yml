@@ -122,11 +122,8 @@ jobs:
                   password: ${{ secrets.ORG_SMTP_PASSWORD }}
                   subject: Playwright Test Report
                   body: |
-                      The Playwright tests have completed.
-
-                      You can view the HTML report at the following link:
-
-                      [View the Playwright Test Report](${{ env.REPORT_URL }})
-
+                      <p>The Playwright tests have completed.</p>
+                      <p>You can view the HTML report at the following link:</p>
+                      <a href="${{ env.REPORT_URL }}">View the Playwright Test Report</a>
                   to: ${{ secrets.REPORT_RECIPIENT_EMAIL }}
                   from: 'GitHub Actions <${{ secrets.ORG_SMTP_USERNAME }}>'
