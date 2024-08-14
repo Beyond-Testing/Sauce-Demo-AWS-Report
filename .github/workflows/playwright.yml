@@ -28,8 +28,17 @@ jobs:
           docker run --rm \
             -v $(pwd)/playwright-report:/usr/src/app/reports/playwright-report \
             my-playwright-tests
-      - name: Check contents of playwright-report
-        run: ls -la ./playwright-report
+
+      - name: Check contents of workspace
+        run: ls -la ./
+
+      - name: View contents of all files in the workspace
+        run: |
+          for file in $(find . -type f); do
+            echo "Contents of $file:"
+            cat $file
+            echo "-------------------------------------"
+          done
 
       - name: Upload Playwright report
         if: always()
