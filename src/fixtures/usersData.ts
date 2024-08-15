@@ -41,7 +41,7 @@ export const validUserLoginData = [
     {username: 'performance_glitch_user', password: 'secret_sauce'},
     {username: 'error_user', password: 'secret_sauce'},
     {username: 'locked_out_user', password: 'secret_sauce'},
-]
+] as const
 
 export const randomUserDataForCheckout = {
     firstname: faker.person.firstName('male'),
