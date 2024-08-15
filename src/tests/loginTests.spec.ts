@@ -1,5 +1,5 @@
 import {test} from '@playwright/test'
-import {loginData, userCredentials} from '../fixtures/usersData'
+import {invalidUserLoginData, validUserLoginData} from '../fixtures/usersData'
 import {LoginPage} from '../pages/LoginPage'
 import {errorMessages} from '../fixtures/errorMessagesData'
 import {ProductsPage} from '../pages/ProductsPage'
@@ -15,7 +15,7 @@ test.describe('Positive Login Suite', () => {
     test('Login with a defective user', async ({page}) => {
         const loginPage = new LoginPage(page)
         const productsPage = new ProductsPage(page)
-        for (let user of userCredentials) {
+        for (let user of validUserLoginData) {
             if (user.username === 'locked_out_user') {
                 continue
             }
@@ -35,7 +35,7 @@ test.describe('Negative Login Suite', () => {
     test('Login with Lockout User', async ({page}) => {
         const loginPage = new LoginPage(page)
         const {username = '', password = ''} =
-            userCredentials.find(
+            validUserLoginData.find(
                 (user) => user.username === 'locked_out_user',
             ) || {}
         await loginPage.login(username, password)
@@ -44,7 +44,7 @@ test.describe('Negative Login Suite', () => {
 
     test('Login with bad credentials', async ({page}) => {
         const loginPage = new LoginPage(page)
-        for (let user of loginData) {
+        for (let user of invalidUserLoginData) {
             await loginPage.login(user.username, user.password)
             await loginPage.getErrorMessage(user.errorMessage)
         }

@@ -1,7 +1,7 @@
 import {errorMessages} from './errorMessagesData'
 import {faker} from '@faker-js/faker'
 
-export const loginData = [
+export const invalidUserLoginData = [
     {
         username: 'standard_user',
         password: 'incorrect_password',
@@ -34,7 +34,7 @@ export const loginData = [
     },
 ] as const
 
-export const userCredentials = [
+export const validUserLoginData = [
     {username: 'standard_user', password: 'secret_sauce'},
     {username: 'visual_user', password: 'secret_sauce'},
     {username: 'problem_user', password: 'secret_sauce'},
@@ -43,7 +43,7 @@ export const userCredentials = [
     {username: 'locked_out_user', password: 'secret_sauce'},
 ]
 
-export const randomUserForCheckout = {
+export const randomUserDataForCheckout = {
     firstname: faker.person.firstName('male'),
     lastname: faker.person.lastName('male'),
     postalcode: Number(faker.location.zipCode()),

@@ -1,5 +1,8 @@
 import {test} from '@playwright/test'
-import {randomUserForCheckout, userCredentials} from '../fixtures/usersData'
+import {
+    randomUserDataForCheckout,
+    validUserLoginData,
+} from '../fixtures/usersData'
 import {url} from '../fixtures/urlData'
 import {LoginPage} from '../pages/LoginPage'
 import {ProductsPage} from '../pages/ProductsPage'
@@ -22,8 +25,9 @@ test.describe('Sanity Tests', () => {
         const checkoutOverviewPage = new CheckoutOverviewPage(page)
         const checkoutCompletePage = new CheckoutCompletePage(page)
         const {username = '', password = ''} =
-            userCredentials.find((user) => user.username === 'standard_user') ||
-            {}
+            validUserLoginData.find(
+                (user) => user.username === 'standard_user',
+            ) || {}
         await loginPage.login(username, password)
         await validateURL(page, url.productsPage)
         await productsPage.getTitle()
@@ -35,7 +39,7 @@ test.describe('Sanity Tests', () => {
         await cartPage.getNumberOfItemsCartBadge(productDetails.length)
         await cartPage.enterCheckoutPage()
         await checkoutPage.getTitle()
-        const {firstname, lastname, postalcode} = randomUserForCheckout
+        const {firstname, lastname, postalcode} = randomUserDataForCheckout
         await checkoutPage.fillFormFields(firstname, lastname, postalcode)
         await checkoutPage.enterCheckoutOverviewPage()
         await checkoutOverviewPage.getTitle()
