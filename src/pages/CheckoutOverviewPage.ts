@@ -4,10 +4,10 @@ import {clickOnElement, validateText, validateURL} from '../helpers/utils'
 import {url} from '../fixtures/urlData'
 
 export class CheckoutOverviewPage {
-    readonly page: Page
-    readonly titleSelector = '[data-test="title"]'
-    readonly totalPriceAfterTaxSelector = '[data-test="total-label"]'
-    readonly finishButtonSelector = '[data-test="finish"]'
+    protected readonly page: Page
+    protected readonly titleSelector = '[data-test="title"]'
+    protected readonly totalPriceAfterTaxSelector = '[data-test="total-label"]'
+    protected readonly finishButtonSelector = '[data-test="finish"]'
 
     constructor(page: Page) {
         this.page = page

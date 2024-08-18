@@ -8,15 +8,17 @@ type MenuButton = {
 }
 
 export class ProductsPage {
-    readonly page: Page
-    readonly cartButtonSelector: string = '[data-test="shopping-cart-link"]'
-    readonly titleSelector: string = '[data-test="title"]'
-    readonly openHamburgerMenu: MenuButton = {
+    protected readonly page: Page
+    protected readonly cartButtonSelector: string =
+        '[data-test="shopping-cart-link"]'
+    protected readonly titleSelector: string = '[data-test="title"]'
+    protected readonly openHamburgerMenu: MenuButton = {
         role: 'button',
         name: 'Open Menu',
     }
-    readonly logoutButtonSelector: string = '[data-test="logout-sidebar-link"]'
-    readonly addToCartItemSelector = (item: string): string =>
+    protected readonly logoutButtonSelector: string =
+        '[data-test="logout-sidebar-link"]'
+    protected readonly addToCartItemSelector = (item: string): string =>
         `[data-test="add-to-cart-${item}"]`
 
     constructor(page: Page) {

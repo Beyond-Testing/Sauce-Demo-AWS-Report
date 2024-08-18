@@ -44,7 +44,7 @@ export async function clickOnElement(
             if (!options?.name) {
                 throw new Error("Name option is required for 'role' selector")
             }
-            element = page.getByRole(selector as any, {name: options.name})
+            element = page.getByRole(selector as 'button', {name: options.name})
             break
         case 'label':
             element = page.getByLabel(selector)

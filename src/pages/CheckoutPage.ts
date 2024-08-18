@@ -3,12 +3,12 @@ import {clickOnElement, validateText, validateURL} from '../helpers/utils'
 import {url} from '../fixtures/urlData'
 
 export class CheckoutPage {
-    readonly page: Page
-    readonly titleSelector = '[data-test="title"]'
-    readonly firstNameFieldSelector = '[data-test="firstName"]'
-    readonly lastNameFieldSelector = '[data-test="lastName"]'
-    readonly postalCodeFieldSelector = '[data-test="postalCode"]'
-    readonly continueButtonSelector = '[data-test="continue"]'
+    protected readonly page: Page
+    protected readonly titleSelector = '[data-test="title"]'
+    protected readonly firstNameFieldSelector = '[data-test="firstName"]'
+    protected readonly lastNameFieldSelector = '[data-test="lastName"]'
+    protected readonly postalCodeFieldSelector = '[data-test="postalCode"]'
+    protected readonly continueButtonSelector = '[data-test="continue"]'
 
     constructor(page: Page) {
         this.page = page

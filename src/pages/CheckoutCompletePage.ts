@@ -3,11 +3,11 @@ import {url} from '../fixtures/urlData'
 import {clickOnElement, validateText, validateURL} from '../helpers/utils'
 
 export class CheckoutCompletePage {
-    readonly page: Page
-    readonly title = '[data-test="title"]'
-    readonly completeOrderTitle = '[data-test="complete-header"]'
-    readonly completeOrderDescription = '[data-test="complete-text"]'
-    readonly backHomeButton = '[data-test="back-to-products"]'
+    protected readonly page: Page
+    protected readonly title = '[data-test="title"]'
+    protected readonly completeOrderTitle = '[data-test="complete-header"]'
+    protected readonly completeOrderDescription = '[data-test="complete-text"]'
+    protected readonly backHomeButton = '[data-test="back-to-products"]'
 
     constructor(page: Page) {
         this.page = page

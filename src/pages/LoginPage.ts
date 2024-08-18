@@ -3,11 +3,11 @@ import {url} from '../fixtures/urlData'
 import {clickOnElement, validateText, validateURL} from '../helpers/utils'
 
 export class LoginPage {
-    readonly page: Page
-    readonly usernameFieldSelector: string = '[data-test="username"]'
-    readonly passwordFieldSelector: string = '[data-test="password"]'
-    readonly loginButtonSelector: string = '[data-test="login-button"]'
-    readonly errorMessageSelector: string = "[data-test='error']"
+    protected readonly page: Page
+    protected readonly usernameFieldSelector: string = '[data-test="username"]'
+    protected readonly passwordFieldSelector: string = '[data-test="password"]'
+    protected readonly loginButtonSelector: string = '[data-test="login-button"]'
+    protected readonly errorMessageSelector: string = "[data-test='error']"
 
     constructor(page: Page) {
         this.page = page

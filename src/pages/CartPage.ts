@@ -4,14 +4,17 @@ import {Product} from '../fixtures/productsData'
 import {url} from '../fixtures/urlData'
 
 export class CartPage {
-    readonly page: Page
-    readonly titleSelector = '[data-test="title"]'
-    readonly cartBadgeSelector = '[data-test="shopping-cart-badge"]'
-    readonly checkoutButtonSelector = '[data-test="checkout"]'
-    readonly cartListProductNameSelector = '[data-test="inventory-item-name"]'
-    readonly cartListProductDescSelector = '[data-test="inventory-item-desc"]'
-    readonly cartListProductPriceSelector = '[data-test="inventory-item-price"]'
-    readonly cartItemSelector = (number: number): string =>
+    protected readonly page: Page
+    protected readonly titleSelector = '[data-test="title"]'
+    protected readonly cartBadgeSelector = '[data-test="shopping-cart-badge"]'
+    protected readonly checkoutButtonSelector = '[data-test="checkout"]'
+    protected readonly cartListProductNameSelector =
+        '[data-test="inventory-item-name"]'
+    protected readonly cartListProductDescSelector =
+        '[data-test="inventory-item-desc"]'
+    protected readonly cartListProductPriceSelector =
+        '[data-test="inventory-item-price"]'
+    protected readonly cartItemSelector = (number: number): string =>
         `#checkout_summary_container > div > div.cart_list > div:nth-child(${number})`
 
     constructor(page: Page) {
