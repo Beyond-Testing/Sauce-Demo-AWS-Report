@@ -13,32 +13,33 @@ export class CheckoutCompletePage {
         this.page = page
     }
 
-    async getTitle() {
-        await validateText(
-            this.page,
-            this.title,
-            'Checkout: Complete!',
-            'string',
-        )
+    async verifyPageTitle(expectedTitle: string = 'Checkout: Complete!') {
+        await validateText(this.page, this.title, expectedTitle, 'string')
     }
-    async getOrderTitle() {
+
+    async verifyOrderTitle(
+        expectedTitle: string = 'Thank you for your order!',
+    ) {
         await validateText(
             this.page,
             this.completeOrderTitle,
-            'Thank you for your order!',
-            'string',
-        )
-    }
-    async getOrderDescription() {
-        await validateText(
-            this.page,
-            this.completeOrderDescription,
-            'Your order has been dispatched, and will arrive just as fast as the pony can get there!',
+            expectedTitle,
             'string',
         )
     }
 
-    async goBackHome() {
+    async verifyOrderDescription(
+        expectedDescription: string = 'Your order has been dispatched, and will arrive just as fast as the pony can get there!',
+    ) {
+        await validateText(
+            this.page,
+            this.completeOrderDescription,
+            expectedDescription,
+            'string',
+        )
+    }
+
+    async goBackToHomePage() {
         await clickOnElement(this.page, this.backHomeButton)
         await validateURL(this.page, url.productsPage)
     }

@@ -2,7 +2,7 @@ import {expect, type Page, type Locator} from '@playwright/test'
 
 type SelectorType = 'locator' | 'role' | 'label' | 'text'
 
-type textType = 'string' | 'substring'
+type TextType = 'string' | 'substring'
 
 export async function validateURL(page: Page, url: string) {
     await expect(page).toHaveURL(url)
@@ -12,29 +12,31 @@ export async function validateText(
     page: Page,
     selector: string,
     text: string,
-    type: textType,
+    textType: TextType,
 ) {
-    switch (type) {
+    const element: Locator = page.locator(selector)
+
+    switch (textType) {
         case 'string':
-            await expect(page.locator(selector)).toHaveText(text)
+            await expect(element).toHaveText(text)
             break
         case 'substring':
-            await expect(page.locator(selector)).toContainText(text)
+            await expect(element).toContainText(text)
             break
         default:
-            throw new Error(`Unknown selector type: ${type}`)
+            throw new Error(`Unknown selector type: ${textType}`)
     }
 }
 
 export async function clickOnElement(
     page: Page,
     selector: string,
-    type: SelectorType = 'locator',
-    options?: {name?: string},
+    selectorType: SelectorType = 'locator',
+    options?: {name: string},
 ) {
     let element: Locator
 
-    switch (type) {
+    switch (selectorType) {
         case 'locator':
             element = page.locator(selector)
             break
@@ -51,7 +53,7 @@ export async function clickOnElement(
             element = page.getByText(selector)
             break
         default:
-            throw new Error(`Unknown selector type: ${type}`)
+            throw new Error(`Unknown selector type: ${selectorType}`)
     }
 
     await element.waitFor({state: 'visible', timeout: 10000})

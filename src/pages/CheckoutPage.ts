@@ -4,39 +4,40 @@ import {url} from '../fixtures/urlData'
 
 export class CheckoutPage {
     readonly page: Page
-    readonly title = '[data-test="title"]'
-    readonly firstnameField = '[data-test="firstName"]'
-    readonly lastnameField = '[data-test="lastName"]'
-    readonly postalcodeField = '[data-test="postalCode"]'
-    readonly continueButton = '[data-test="continue"]'
+    readonly titleSelector = '[data-test="title"]'
+    readonly firstNameFieldSelector = '[data-test="firstName"]'
+    readonly lastNameFieldSelector = '[data-test="lastName"]'
+    readonly postalCodeFieldSelector = '[data-test="postalCode"]'
+    readonly continueButtonSelector = '[data-test="continue"]'
 
     constructor(page: Page) {
         this.page = page
     }
-
-    async getTitle() {
+    async verifyPageTitle(
+        expectedTitle: string = 'Checkout: Your Information',
+    ) {
         await validateText(
             this.page,
-            this.title,
-            'Checkout: Your Information',
+            this.titleSelector,
+            expectedTitle,
             'string',
         )
     }
 
-    async fillFormFields(
+    async fillCheckoutForm(
         firstName: string,
         lastName: string,
-        postalcode: number,
+        postalCode: number,
     ) {
-        await this.page.locator(this.firstnameField).fill(firstName)
-        await this.page.locator(this.lastnameField).fill(lastName)
+        await this.page.locator(this.firstNameFieldSelector).fill(firstName)
+        await this.page.locator(this.lastNameFieldSelector).fill(lastName)
         await this.page
-            .locator(this.postalcodeField)
-            .fill(postalcode.toString())
+            .locator(this.postalCodeFieldSelector)
+            .fill(postalCode.toString())
     }
 
-    async enterCheckoutOverviewPage() {
-        await clickOnElement(this.page, this.continueButton)
+    async proceedToCheckoutOverviewPage() {
+        await clickOnElement(this.page, this.continueButtonSelector)
         await validateURL(this.page, url.checkoutOverviewPage)
     }
 }

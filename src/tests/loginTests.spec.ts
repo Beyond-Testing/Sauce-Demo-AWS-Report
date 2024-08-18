@@ -9,7 +9,7 @@ import {url} from '../fixtures/urlData'
 test.describe('Positive Login Suite', () => {
     test.beforeEach(async ({page}) => {
         const loginPage = new LoginPage(page)
-        await loginPage.openPage()
+        await loginPage.openLoginPage()
     })
 
     test('Login with a defective user', async ({page}) => {
@@ -21,7 +21,7 @@ test.describe('Positive Login Suite', () => {
             }
             await loginPage.login(user.username, user.password)
             await validateURL(page, url.productsPage)
-            await productsPage.getTitle()
+            await productsPage.verifyPageTitle()
             await productsPage.logout()
         }
     })
@@ -30,7 +30,7 @@ test.describe('Positive Login Suite', () => {
 test.describe('Negative Login Suite', () => {
     test.beforeEach(async ({page}) => {
         const loginPage = new LoginPage(page)
-        await loginPage.openPage()
+        await loginPage.openLoginPage()
     })
     test('Login with Lockout User', async ({page}) => {
         const loginPage = new LoginPage(page)
@@ -39,14 +39,16 @@ test.describe('Negative Login Suite', () => {
                 (user) => user.username === 'locked_out_user',
             ) || {}
         await loginPage.login(username, password)
-        await loginPage.getErrorMessage(errorMessages.locked_out_error_message)
+        await loginPage.verifyErrorMessage(
+            errorMessages.locked_out_error_message,
+        )
     })
 
     test('Login with bad credentials', async ({page}) => {
         const loginPage = new LoginPage(page)
         for (let user of invalidUserLoginData) {
             await loginPage.login(user.username, user.password)
-            await loginPage.getErrorMessage(user.errorMessage)
+            await loginPage.verifyErrorMessage(user.errorMessage)
         }
     })
 })
