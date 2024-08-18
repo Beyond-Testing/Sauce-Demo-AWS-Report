@@ -4,15 +4,15 @@ import {clickOnElement, validateText, validateURL} from '../helpers/utils'
 import {url} from '../fixtures/urlData'
 
 export class CheckoutOverviewPage {
-    private page: Page
-    private title = '[data-test="title"]'
-    private totalPriceAfterTax = '[data-test="total-label"]'
-    private finishButton = '[data-test="finish"]'
+    readonly page: Page
+    readonly title = '[data-test="title"]'
+    readonly totalPriceAfterTax = '[data-test="total-label"]'
+    readonly finishButton = '[data-test="finish"]'
 
     constructor(page: Page) {
         this.page = page
     }
-    public async getTitle() {
+    async getTitle() {
         await validateText(
             this.page,
             this.title,
@@ -21,15 +21,12 @@ export class CheckoutOverviewPage {
         )
     }
 
-    public async finishCheckout() {
+    async finishCheckout() {
         await clickOnElement(this.page, this.finishButton)
         await validateURL(this.page, url.checkoutCompletePage)
     }
 
-    private getTotalPriceAfterTax(
-        productDetails: Product[],
-        taxRate: number = 0.08,
-    ) {
+    getTotalPriceAfterTax(productDetails: Product[], taxRate: number = 0.08) {
         const totalPriceBeforeTax = productDetails.reduce(
             (total, product) =>
                 total + parseFloat(product.price.replace('$', '')),
@@ -40,7 +37,7 @@ export class CheckoutOverviewPage {
         return finalPrice.toFixed(2)
     }
 
-    public async checkTotalPrice(products: Product[]) {
+    async checkTotalPrice(products: Product[]) {
         await validateText(
             this.page,
             this.totalPriceAfterTax,

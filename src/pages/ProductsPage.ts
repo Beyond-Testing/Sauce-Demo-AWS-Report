@@ -3,33 +3,36 @@ import {url} from '../fixtures/urlData'
 import {clickOnElement, validateText, validateURL} from '../helpers/utils'
 
 export class ProductsPage {
-    private page: Page
-    private cardButton = '[data-test="shopping-cart-link"]'
-    private title = '[data-test="title"]'
-    private openHamburgerMenu = {role: 'button' as 'button', name: 'Open Menu'}
-    private logoutButton = '[data-test="logout-sidebar-link"]'
+    readonly page: Page
+    readonly cardButton = '[data-test="shopping-cart-link"]'
+    readonly title = '[data-test="title"]'
+    readonly openHamburgerMenu = {
+        role: 'button' as 'button',
+        name: 'Open Menu',
+    }
+    readonly logoutButton = '[data-test="logout-sidebar-link"]'
 
     constructor(page: Page) {
         this.page = page
     }
 
-    public async openPage() {
+    async openPage() {
         await this.page.goto(url.productsPage)
         await validateURL(this.page, url.productsPage)
     }
-    public async addItemsToCart(item: string) {
+    async addItemsToCart(item: string) {
         await clickOnElement(this.page, `[data-test="add-to-cart-${item}"]`)
     }
-    public async enterCart() {
+    async enterCart() {
         await clickOnElement(this.page, this.cardButton)
         await validateURL(this.page, url.checkoutPage)
     }
 
-    public async getTitle() {
+    async getTitle() {
         await validateText(this.page, this.title, 'Products', 'string')
     }
 
-    public async logout() {
+    async logout() {
         await validateURL(this.page, url.productsPage)
         await clickOnElement(this.page, this.openHamburgerMenu.role, 'role', {
             name: this.openHamburgerMenu.name,

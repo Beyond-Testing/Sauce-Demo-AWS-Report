@@ -3,17 +3,17 @@ import {url} from '../fixtures/urlData'
 import {clickOnElement, validateText, validateURL} from '../helpers/utils'
 
 export class CheckoutCompletePage {
-    private page: Page
-    private title = '[data-test="title"]'
-    private completeOrderTitle = '[data-test="complete-header"]'
-    private completeOrderDescription = '[data-test="complete-text"]'
-    private backHomeButton = '[data-test="back-to-products"]'
+    readonly page: Page
+    readonly title = '[data-test="title"]'
+    readonly completeOrderTitle = '[data-test="complete-header"]'
+    readonly completeOrderDescription = '[data-test="complete-text"]'
+    readonly backHomeButton = '[data-test="back-to-products"]'
 
     constructor(page: Page) {
         this.page = page
     }
 
-    public async getTitle() {
+    async getTitle() {
         await validateText(
             this.page,
             this.title,
@@ -21,7 +21,7 @@ export class CheckoutCompletePage {
             'string',
         )
     }
-    public async getOrderTitle() {
+    async getOrderTitle() {
         await validateText(
             this.page,
             this.completeOrderTitle,
@@ -29,7 +29,7 @@ export class CheckoutCompletePage {
             'string',
         )
     }
-    public async getOrderDescription() {
+    async getOrderDescription() {
         await validateText(
             this.page,
             this.completeOrderDescription,
@@ -38,7 +38,7 @@ export class CheckoutCompletePage {
         )
     }
 
-    public async goBackHome() {
+    async goBackHome() {
         await clickOnElement(this.page, this.backHomeButton)
         await validateURL(this.page, url.productsPage)
     }

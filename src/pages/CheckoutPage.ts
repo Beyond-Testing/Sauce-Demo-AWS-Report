@@ -3,18 +3,18 @@ import {clickOnElement, validateText, validateURL} from '../helpers/utils'
 import {url} from '../fixtures/urlData'
 
 export class CheckoutPage {
-    private page: Page
-    private title = '[data-test="title"]'
-    private firstnameField = '[data-test="firstName"]'
-    private lastnameField = '[data-test="lastName"]'
-    private postalcodeField = '[data-test="postalCode"]'
-    private continueButton = '[data-test="continue"]'
+    readonly page: Page
+    readonly title = '[data-test="title"]'
+    readonly firstnameField = '[data-test="firstName"]'
+    readonly lastnameField = '[data-test="lastName"]'
+    readonly postalcodeField = '[data-test="postalCode"]'
+    readonly continueButton = '[data-test="continue"]'
 
     constructor(page: Page) {
         this.page = page
     }
 
-    public async getTitle() {
+    async getTitle() {
         await validateText(
             this.page,
             this.title,
@@ -23,7 +23,7 @@ export class CheckoutPage {
         )
     }
 
-    public async fillFormFields(
+    async fillFormFields(
         firstName: string,
         lastName: string,
         postalcode: number,
@@ -35,7 +35,7 @@ export class CheckoutPage {
             .fill(postalcode.toString())
     }
 
-    public async enterCheckoutOverviewPage() {
+    async enterCheckoutOverviewPage() {
         await clickOnElement(this.page, this.continueButton)
         await validateURL(this.page, url.checkoutOverviewPage)
     }
