@@ -8,24 +8,21 @@ type MenuButton = {
 }
 
 export class ProductsPage {
-    protected readonly page: Page
-    protected readonly cartButtonSelector: string =
+    private readonly cartButtonSelector: string =
         '[data-test="shopping-cart-link"]'
-    protected readonly titleSelector: string = '[data-test="title"]'
-    protected readonly openHamburgerMenu: MenuButton = {
+    private readonly titleSelector: string = '[data-test="title"]'
+    private readonly openHamburgerMenu: MenuButton = {
         role: 'button',
         name: 'Open Menu',
     }
-    protected readonly logoutButtonSelector: string =
+    private readonly logoutButtonSelector: string =
         '[data-test="logout-sidebar-link"]'
-    protected readonly addToCartItemSelector = (item: string): string =>
+    private readonly addToCartItemSelector = (item: string): string =>
         `[data-test="add-to-cart-${item}"]`
 
-    constructor(page: Page) {
-        this.page = page
-    }
+    constructor(private readonly page: Page) {}
 
-    async verifyPageTitle(expectedTitle: string = 'Products') {
+    async verifyPageTitle(expectedTitle: string = 'Products'): Promise<void> {
         await validateText(
             this.page,
             this.titleSelector,
@@ -34,16 +31,16 @@ export class ProductsPage {
         )
     }
 
-    async addItemToCart(item: string) {
+    async addItemToCart(item: string): Promise<void> {
         await clickOnElement(this.page, this.addToCartItemSelector(item))
     }
 
-    async proceedToCartPage() {
+    async proceedToCartPage(): Promise<void> {
         await clickOnElement(this.page, this.cartButtonSelector)
         await validateURL(this.page, url.checkoutPage)
     }
 
-    async logout() {
+    async logout(): Promise<void> {
         await clickOnElement(this.page, this.openHamburgerMenu.role, 'role', {
             name: this.openHamburgerMenu.name,
         })

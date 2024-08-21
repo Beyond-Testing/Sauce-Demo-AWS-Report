@@ -3,16 +3,14 @@ import {clickOnElement, validateText, validateURL} from '../helpers/utils'
 import {url} from '../fixtures/urlData'
 
 export class CheckoutPage {
-    protected readonly page: Page
-    protected readonly titleSelector = '[data-test="title"]'
-    protected readonly firstNameFieldSelector = '[data-test="firstName"]'
-    protected readonly lastNameFieldSelector = '[data-test="lastName"]'
-    protected readonly postalCodeFieldSelector = '[data-test="postalCode"]'
-    protected readonly continueButtonSelector = '[data-test="continue"]'
+    private readonly titleSelector = '[data-test="title"]'
+    private readonly firstNameFieldSelector = '[data-test="firstName"]'
+    private readonly lastNameFieldSelector = '[data-test="lastName"]'
+    private readonly postalCodeFieldSelector = '[data-test="postalCode"]'
+    private readonly continueButtonSelector = '[data-test="continue"]'
 
-    constructor(page: Page) {
-        this.page = page
-    }
+    constructor(private readonly page: Page) {}
+
     async verifyPageTitle(
         expectedTitle: string = 'Checkout: Your Information',
     ) {
@@ -28,7 +26,7 @@ export class CheckoutPage {
         firstName: string,
         lastName: string,
         postalCode: number,
-    ) {
+    ): Promise<void> {
         await this.page.locator(this.firstNameFieldSelector).fill(firstName)
         await this.page.locator(this.lastNameFieldSelector).fill(lastName)
         await this.page
@@ -36,7 +34,7 @@ export class CheckoutPage {
             .fill(postalCode.toString())
     }
 
-    async proceedToCheckoutOverviewPage() {
+    async proceedToCheckoutOverviewPage(): Promise<void> {
         await clickOnElement(this.page, this.continueButtonSelector)
         await validateURL(this.page, url.checkoutOverviewPage)
     }

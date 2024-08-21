@@ -4,24 +4,21 @@ import {Product} from '../fixtures/productsData'
 import {url} from '../fixtures/urlData'
 
 export class CartPage {
-    protected readonly page: Page
-    protected readonly titleSelector = '[data-test="title"]'
-    protected readonly cartBadgeSelector = '[data-test="shopping-cart-badge"]'
-    protected readonly checkoutButtonSelector = '[data-test="checkout"]'
-    protected readonly cartListProductNameSelector =
+    private readonly titleSelector = '[data-test="title"]'
+    private readonly cartBadgeSelector = '[data-test="shopping-cart-badge"]'
+    private readonly checkoutButtonSelector = '[data-test="checkout"]'
+    private readonly cartListProductNameSelector =
         '[data-test="inventory-item-name"]'
-    protected readonly cartListProductDescSelector =
+    private readonly cartListProductDescSelector =
         '[data-test="inventory-item-desc"]'
-    protected readonly cartListProductPriceSelector =
+    private readonly cartListProductPriceSelector =
         '[data-test="inventory-item-price"]'
-    protected readonly cartItemSelector = (number: number): string =>
+    private readonly cartItemSelector = (number: number): string =>
         `#checkout_summary_container > div > div.cart_list > div:nth-child(${number})`
 
-    constructor(page: Page) {
-        this.page = page
-    }
+    constructor(private readonly page: Page) {}
 
-    async verifyPageTitle(expectedTitle: string = 'Your Cart') {
+    async verifyPageTitle(expectedTitle: string = 'Your Cart'): Promise<void> {
         await validateText(
             this.page,
             this.titleSelector,
@@ -30,7 +27,7 @@ export class CartPage {
         )
     }
 
-    async verifyNumberOfItemsCartBadge(numberOfItems: number) {
+    async verifyNumberOfItemsCartBadge(numberOfItems: number): Promise<void> {
         await validateText(
             this.page,
             this.cartBadgeSelector,
@@ -39,21 +36,22 @@ export class CartPage {
         )
     }
 
-    async proceedToCheckoutPage() {
+    async proceedToCheckoutPage(): Promise<void> {
         await clickOnElement(this.page, this.checkoutButtonSelector)
         await validateURL(this.page, url.checkoutStepOnePage)
     }
 
-    async verifyProductsInCart(productArray: Product[]) {
-        for (let i = 0; i < productArray.length; i++) {
-            const productLocator = this.cartItemSelector(i + 3)
-            const product = productArray[i]
-
+    async verifyProductsInCart(productArray: Product[]): Promise<void> {
+        productArray.forEach(async (product, index) => {
+            const productLocator = this.cartItemSelector(index + 3)
             await this.verifySingleProductInCart(productLocator, product)
-        }
+        })
     }
 
-    async verifySingleProductInCart(productLocator: string, product: Product) {
+    private async verifySingleProductInCart(
+        productLocator: string,
+        product: Product,
+    ): Promise<void> {
         await validateText(
             this.page,
             `${productLocator} ${this.cartListProductNameSelector}`,

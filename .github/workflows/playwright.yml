@@ -124,8 +124,6 @@ jobs:
                   echo "REPORT_URL=$REPORT_URL" >> $GITHUB_ENV
 
             - name: Generate Email Body
-              env:
-                  REPORT_URL: ${{ steps.read_report_url.outputs.REPORT_URL }}
               run: |
                   echo "<p>The Playwright tests have completed.</p>" > email_body.html
                   echo "<p>You can view the HTML report at the following link:</p>" >> email_body.html

@@ -3,23 +3,22 @@ import {url} from '../fixtures/urlData'
 import {clickOnElement, validateText, validateURL} from '../helpers/utils'
 
 export class CheckoutCompletePage {
-    protected readonly page: Page
-    protected readonly title = '[data-test="title"]'
-    protected readonly completeOrderTitle = '[data-test="complete-header"]'
-    protected readonly completeOrderDescription = '[data-test="complete-text"]'
-    protected readonly backHomeButton = '[data-test="back-to-products"]'
+    private readonly title = '[data-test="title"]'
+    private readonly completeOrderTitle = '[data-test="complete-header"]'
+    private readonly completeOrderDescription = '[data-test="complete-text"]'
+    private readonly backHomeButton = '[data-test="back-to-products"]'
 
-    constructor(page: Page) {
-        this.page = page
-    }
+    constructor(private readonly page: Page) {}
 
-    async verifyPageTitle(expectedTitle: string = 'Checkout: Complete!') {
+    async verifyPageTitle(
+        expectedTitle: string = 'Checkout: Complete!',
+    ): Promise<void> {
         await validateText(this.page, this.title, expectedTitle, 'string')
     }
 
     async verifyOrderTitle(
         expectedTitle: string = 'Thank you for your order!',
-    ) {
+    ): Promise<void> {
         await validateText(
             this.page,
             this.completeOrderTitle,
@@ -30,7 +29,7 @@ export class CheckoutCompletePage {
 
     async verifyOrderDescription(
         expectedDescription: string = 'Your order has been dispatched, and will arrive just as fast as the pony can get there!',
-    ) {
+    ): Promise<void> {
         await validateText(
             this.page,
             this.completeOrderDescription,
@@ -39,7 +38,7 @@ export class CheckoutCompletePage {
         )
     }
 
-    async goBackToHomePage() {
+    async goBackToHomePage(): Promise<void> {
         await clickOnElement(this.page, this.backHomeButton)
         await validateURL(this.page, url.productsPage)
     }
