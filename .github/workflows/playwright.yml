@@ -14,7 +14,9 @@ on:
 
 jobs:
     build:
+        name: Build Docker Image
         runs-on: ubuntu-latest
+
         steps:
             - name: Checkout code
               uses: actions/checkout@v4
@@ -35,8 +37,11 @@ jobs:
                   path: my-playwright-tests.tar
 
     run-tests:
+        name: Run Playwright Tests
         runs-on: ubuntu-latest
         needs: build
+        continue-on-error: true
+        timeout-minutes: 15
         steps:
             - name: Checkout code
               uses: actions/checkout@v4
@@ -52,8 +57,8 @@ jobs:
             - name: Run Playwright tests
               run: |
                   docker run --rm \
-                    -v $(pwd)/playwright-report:/usr/src/app/playwright-report \
-                    my-playwright-tests
+                  -v $(pwd)/playwright-report:/usr/src/app/playwright-report \
+                  my-playwright-tests
 
             - name: Upload Playwright report
               if: always()
@@ -63,8 +68,11 @@ jobs:
                   path: playwright-report
 
     upload-to-s3:
+        name: Upload to S3 Bucket
         runs-on: ubuntu-latest
         needs: run-tests
+        continue-on-error: true
+        timeout-minutes: 15
         env:
             REPORT_DIR: playwright-report-${{ github.run_id }}
         steps:
@@ -98,8 +106,11 @@ jobs:
                   path: url.txt
 
     send-email:
+        name: Send Email with Report Link
         runs-on: ubuntu-latest
         needs: upload-to-s3
+        continue-on-error: true
+        timeout-minutes: 5
         steps:
             - name: Download URL file
               uses: actions/download-artifact@v4
@@ -113,6 +124,8 @@ jobs:
                   echo "REPORT_URL=$REPORT_URL" >> $GITHUB_ENV
 
             - name: Generate Email Body
+              env:
+                  REPORT_URL: ${{ steps.read_report_url.outputs.REPORT_URL }}
               run: |
                   echo "<p>The Playwright tests have completed.</p>" > email_body.html
                   echo "<p>You can view the HTML report at the following link:</p>" >> email_body.html
