@@ -6,6 +6,7 @@ import {ProductsPage} from '../pages/ProductsPage'
 import {validateURL} from '../helpers/utils'
 import {url} from '../fixtures/urlData'
 
+
 test.describe('Positive Login Suite', () => {
     test.beforeEach(async ({page}) => {
         const loginPage = new LoginPage(page)
