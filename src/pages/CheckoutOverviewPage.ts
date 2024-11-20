@@ -2,13 +2,9 @@ import {type Page} from '@playwright/test'
 import {Product} from '../fixtures/productsData'
 import {clickOnElement, validateText, validateURL} from '../helpers/utils'
 import {url} from '../fixtures/urlData'
+import {CheckoutOverViewLocators} from '../locators/CheckoutOverviewLocators'
 
 export class CheckoutOverviewPage {
-    private readonly titleSelector: string = '[data-test="title"]'
-    private readonly totalPriceAfterTaxSelector: string =
-        '[data-test="total-label"]'
-    private readonly finishButtonSelector: string = '[data-test="finish"]'
-
     constructor(private readonly page: Page) {}
 
     async verifyPageTitle(
@@ -16,14 +12,17 @@ export class CheckoutOverviewPage {
     ): Promise<void> {
         await validateText(
             this.page,
-            this.titleSelector,
+            CheckoutOverViewLocators.titleSelector,
             expectedTitle,
             'string',
         )
     }
 
     async completeCheckout(): Promise<void> {
-        await clickOnElement(this.page, this.finishButtonSelector)
+        await clickOnElement(
+            this.page,
+            CheckoutOverViewLocators.finishButtonSelector,
+        )
         await validateURL(this.page, url.checkoutCompletePage)
     }
 
@@ -45,7 +44,7 @@ export class CheckoutOverviewPage {
         const calculatedTotalPrice = this.calculateTotalPriceAfterTax(products)
         await validateText(
             this.page,
-            this.totalPriceAfterTaxSelector,
+            CheckoutOverViewLocators.totalPriceAfterTaxSelector,
             calculatedTotalPrice,
             'substring',
         )

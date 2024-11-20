@@ -1,13 +1,9 @@
 import {type Page} from '@playwright/test'
 import {url} from '../fixtures/urlData'
 import {clickOnElement, validateText, validateURL} from '../helpers/utils'
+import {LoginLocators} from '../locators/LoginLocators'
 
 export class LoginPage {
-    private readonly usernameFieldSelector: string = '[data-test="username"]'
-    private readonly passwordFieldSelector: string = '[data-test="password"]'
-    private readonly loginButtonSelector: string = '[data-test="login-button"]'
-    private readonly errorMessageSelector: string = "[data-test='error']"
-
     constructor(private readonly page: Page) {}
 
     async openLoginPage(): Promise<void> {
@@ -16,15 +12,19 @@ export class LoginPage {
     }
 
     async login(username: string, password: string): Promise<void> {
-        await this.page.locator(this.usernameFieldSelector).fill(username)
-        await this.page.locator(this.passwordFieldSelector).fill(password)
-        await clickOnElement(this.page, this.loginButtonSelector)
+        await this.page
+            .locator(LoginLocators.usernameFieldSelector)
+            .fill(username)
+        await this.page
+            .locator(LoginLocators.passwordFieldSelector)
+            .fill(password)
+        await clickOnElement(this.page, LoginLocators.loginButtonSelector)
     }
 
     async verifyErrorMessage(expectedErrorMessage: string): Promise<void> {
         await validateText(
             this.page,
-            this.errorMessageSelector,
+            LoginLocators.errorMessageSelector,
             expectedErrorMessage,
             'string',
         )

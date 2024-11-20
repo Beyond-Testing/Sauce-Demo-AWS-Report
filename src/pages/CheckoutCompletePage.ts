@@ -1,19 +1,20 @@
 import {type Page} from '@playwright/test'
 import {url} from '../fixtures/urlData'
 import {clickOnElement, validateText, validateURL} from '../helpers/utils'
+import {CheckoutCompleteLocators} from '../locators/CheckoutCompleteLocators'
 
 export class CheckoutCompletePage {
-    private readonly title = '[data-test="title"]'
-    private readonly completeOrderTitle = '[data-test="complete-header"]'
-    private readonly completeOrderDescription = '[data-test="complete-text"]'
-    private readonly backHomeButton = '[data-test="back-to-products"]'
-
     constructor(private readonly page: Page) {}
 
     async verifyPageTitle(
         expectedTitle: string = 'Checkout: Complete!',
     ): Promise<void> {
-        await validateText(this.page, this.title, expectedTitle, 'string')
+        await validateText(
+            this.page,
+            CheckoutCompleteLocators.title,
+            expectedTitle,
+            'string',
+        )
     }
 
     async verifyOrderTitle(
@@ -21,7 +22,7 @@ export class CheckoutCompletePage {
     ): Promise<void> {
         await validateText(
             this.page,
-            this.completeOrderTitle,
+            CheckoutCompleteLocators.completeOrderTitle,
             expectedTitle,
             'string',
         )
@@ -32,14 +33,14 @@ export class CheckoutCompletePage {
     ): Promise<void> {
         await validateText(
             this.page,
-            this.completeOrderDescription,
+            CheckoutCompleteLocators.completeOrderDescription,
             expectedDescription,
             'string',
         )
     }
 
     async goBackToHomePage(): Promise<void> {
-        await clickOnElement(this.page, this.backHomeButton)
+        await clickOnElement(this.page, CheckoutCompleteLocators.backHomeButton)
         await validateURL(this.page, url.productsPage)
     }
 }
