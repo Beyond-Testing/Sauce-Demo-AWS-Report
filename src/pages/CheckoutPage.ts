@@ -1,14 +1,9 @@
 import {type Page} from '@playwright/test'
 import {clickOnElement, validateText, validateURL} from '../helpers/utils'
 import {url} from '../fixtures/urlData'
+import {CheckoutLocators} from '../locators/CheckoutLocators'
 
 export class CheckoutPage {
-    private readonly titleSelector = '[data-test="title"]'
-    private readonly firstNameFieldSelector = '[data-test="firstName"]'
-    private readonly lastNameFieldSelector = '[data-test="lastName"]'
-    private readonly postalCodeFieldSelector = '[data-test="postalCode"]'
-    private readonly continueButtonSelector = '[data-test="continue"]'
-
     constructor(private readonly page: Page) {}
 
     async verifyPageTitle(
@@ -16,7 +11,7 @@ export class CheckoutPage {
     ) {
         await validateText(
             this.page,
-            this.titleSelector,
+            CheckoutLocators.titleSelector,
             expectedTitle,
             'string',
         )
@@ -27,15 +22,19 @@ export class CheckoutPage {
         lastName: string,
         postalCode: number,
     ): Promise<void> {
-        await this.page.locator(this.firstNameFieldSelector).fill(firstName)
-        await this.page.locator(this.lastNameFieldSelector).fill(lastName)
         await this.page
-            .locator(this.postalCodeFieldSelector)
+            .locator(CheckoutLocators.firstNameFieldSelector)
+            .fill(firstName)
+        await this.page
+            .locator(CheckoutLocators.lastNameFieldSelector)
+            .fill(lastName)
+        await this.page
+            .locator(CheckoutLocators.postalCodeFieldSelector)
             .fill(postalCode.toString())
     }
 
     async proceedToCheckoutOverviewPage(): Promise<void> {
-        await clickOnElement(this.page, this.continueButtonSelector)
+        await clickOnElement(this.page, CheckoutLocators.continueButtonSelector)
         await validateURL(this.page, url.checkoutOverviewPage)
     }
 }
