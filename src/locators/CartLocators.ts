@@ -1,5 +1,3 @@
-import {CheckoutOverViewLocators} from '../locators/CheckoutOverviewLocators'
-
 export class CartLocators {
     static readonly titleSelector = '[data-test="title"]'
     static readonly cartBadgeSelector = '[data-test="shopping-cart-badge"]'

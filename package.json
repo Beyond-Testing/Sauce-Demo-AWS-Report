@@ -9,7 +9,7 @@
         "test": "playwright test",
         "report": "playwright show-report",
         "codegen": "playwright codegen"
-    },
+    },  
     "keywords": [],
     "author": "",
     "license": "ISC",
