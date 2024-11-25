@@ -17,22 +17,21 @@ test.describe('Sanity Tests', () => {
     test.beforeEach(async ({page}) => {
         await page.goto(url.basePage)
     })
-    test('Sanity Scenario', async ({page}) => {
+    test('Verify user can purchase and complete an order', async ({page}) => {
         const loginPage = new LoginPage(page)
         const productsPage = new ProductsPage(page)
         const cartPage = new CartPage(page)
         const checkoutPage = new CheckoutPage(page)
         const checkoutOverviewPage = new CheckoutOverviewPage(page)
         const checkoutCompletePage = new CheckoutCompletePage(page)
-        const {username = '', password = ''} =
-            validUserLoginData.find(
-                (user) => user.username === 'standard_user',
-            ) || {}
+        const {username, password} = validUserLoginData.find(
+            ({username}) => username === 'standard_user',
+        ) || {username: '', password: ''}
         await loginPage.login(username, password)
         await validateURL(page, url.productsPage)
         await productsPage.verifyPageTitle()
-        for (let product of productDetails) {
-            await productsPage.addItemToCart(product.locator)
+        for (let {locator} of productDetails) {
+            await productsPage.addItemToCart(locator)
         }
         await productsPage.proceedToCartPage()
         await cartPage.verifyPageTitle()

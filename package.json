@@ -5,11 +5,14 @@
     "main": "dist/index.js",
     "scripts": {
         "build": "tsc",
+        "docker:build": "docker build -t playwright-tests .",
+        "docker:test": "docker run playwright-tests npm run test",
         "start": "node dist/index.js",
         "test": "playwright test",
         "report": "playwright show-report",
-        "codegen": "playwright codegen"
-    },  
+        "codegen": "playwright codegen",
+        "chrome": "playwright test --project=chromium"
+    },
     "keywords": [],
     "author": "",
     "license": "ISC",
