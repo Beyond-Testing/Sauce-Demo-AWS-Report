@@ -8,7 +8,7 @@
         "docker:build": "docker build -t playwright-tests .",
         "docker:test": "docker run playwright-tests npm run test",
         "start": "node dist/index.js",
-        "test": "playwright test",
+        "test": "playwright test --headed",
         "report": "playwright show-report",
         "codegen": "playwright codegen",
         "chrome": "playwright test --project=chromium"
@@ -18,7 +18,7 @@
     "license": "ISC",
     "devDependencies": {
         "@faker-js/faker": "^8.4.1",
-        "@playwright/test": "^1.46.0",
+        "@playwright/test": "^1.49.1",
         "@types/node": "^22.2.0",
         "ts-node": "^10.9.2",
         "typescript": "^5.5.4"
