@@ -3,24 +3,24 @@
   "version": "1.0.0",
   "description": "This project is designed for UI testing purposes using the Page Object Model (POM) architecture. The POM pattern facilitates the creation of maintainable and scalable test automation code by organizing the UI elements and interactions into reusable page classes. This object-oriented approach (OOP) ensures that the testing code is easy to understand, modify, and extend as the application evolves.",
   "main": "dist/index.js",
+  "keywords": [],
+  "author": "Netanel Harush",
+  "license": "ISC",
   "scripts": {
     "build": "tsc",
+    "start": "node dist/index.js",
     "docker:build": "docker build -t playwright-tests .",
     "docker:test": "docker run playwright-tests npm run test",
-    "start": "node dist/index.js",
     "test": "playwright test",
     "report": "playwright show-report",
     "codegen": "playwright codegen",
     "chrome": "playwright test --project=chromium"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "devDependencies": {
-    "@faker-js/faker": "^9.3.0",
-    "@playwright/test": "^1.49.1",
-    "@types/node": "^22.10.2",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.5.4"
+    "@faker-js/faker": "latest",
+    "@playwright/test": "latest",
+    "@types/node": "latest",
+    "ts-node": "latest",
+    "typescript": "latest"
   }
 }

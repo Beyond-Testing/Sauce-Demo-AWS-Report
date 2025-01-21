@@ -3,16 +3,23 @@ type MenuButton = {
   name: string
 }
 
-export class ProductLocators {
-  static readonly cartButtonSelector: string =
-    '[data-test="shopping-cart-link"]'
-  static readonly titleSelector: string = '[data-test="title"]'
-  static readonly openHamburgerMenu: MenuButton = {
+interface IProductLocators {
+  cartButton: string
+  title: string
+  openHamburgerMenu: MenuButton
+  logoutButton: string
+  addToCartItem: (item: string) => string
+}
+
+class ProductLocators implements Readonly<IProductLocators> {
+  cartButton = '[data-test="shopping-cart-link"]'
+  title = '[data-test="title"]'
+  openHamburgerMenu: MenuButton = {
     role: 'button',
     name: 'Open Menu',
   }
-  static readonly logoutButtonSelector: string =
-    '[data-test="logout-sidebar-link"]'
-  static readonly addToCartItemSelector = (item: string): string =>
-    `[data-test="add-to-cart-${item}"]`
+  logoutButton = '[data-test="logout-sidebar-link"]'
+  addToCartItem = (item: string): string => `[data-test="add-to-cart-${item}"]`
 }
+
+export const ProductLocator = new ProductLocators()

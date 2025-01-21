@@ -1,7 +1,17 @@
-export class CheckoutLocators {
-  static readonly titleSelector = '[data-test="title"]'
-  static readonly firstNameFieldSelector = '[data-test="firstName"]'
-  static readonly lastNameFieldSelector = '[data-test="lastName"]'
-  static readonly postalCodeFieldSelector = '[data-test="postalCode"]'
-  static readonly continueButtonSelector = '[data-test="continue"]'
+interface ICheckoutCompleteLocator {
+  title: string
+  firstNameField: string
+  lastNameField: string
+  postalCodeField: string
+  continueButton: string
 }
+
+class CheckoutLocators implements Readonly<ICheckoutCompleteLocator> {
+  title = '[data-test="title"]'
+  firstNameField = '[data-test="firstName"]'
+  lastNameField = '[data-test="lastName"]'
+  postalCodeField = '[data-test="postalCode"]'
+  continueButton = '[data-test="continue"]'
+}
+
+export const CheckoutLocator = new CheckoutLocators()

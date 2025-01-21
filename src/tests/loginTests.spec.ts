@@ -3,7 +3,7 @@ import {invalidUserLoginData, validUserLoginData} from '../fixtures/usersData'
 import {LoginPage} from '../pages/LoginPage'
 import {errorMessages} from '../fixtures/errorMessagesData'
 import {ProductsPage} from '../pages/ProductsPage'
-import {validateURL} from '../helpers/utils'
+import {validateURL} from '../helpers/testUtils'
 import {url} from '../fixtures/urlData'
 
 test.describe('Positive Login Suite', () => {

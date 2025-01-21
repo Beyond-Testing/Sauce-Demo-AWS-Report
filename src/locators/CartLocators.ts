@@ -1,13 +1,22 @@
-export class CartLocators {
-  static readonly titleSelector = '[data-test="title"]'
-  static readonly cartBadgeSelector = '[data-test="shopping-cart-badge"]'
-  static readonly checkoutButtonSelector = '[data-test="checkout"]'
-  static readonly cartListProductNameSelector =
-    '[data-test="inventory-item-name"]'
-  static readonly cartListProductDescSelector =
-    '[data-test="inventory-item-desc"]'
-  static readonly cartListProductPriceSelector =
-    '[data-test="inventory-item-price"]'
-  static readonly cartItemSelector = (number: number): string =>
+interface IPageLocator {
+  title: string
+  cartBadge: string
+  checkoutButton: string
+  cartListProductName: string
+  cartListProductDesc: string
+  cartListProductPrice: string
+  cartItem: (number: number) => string
+}
+
+class CartLocators implements Readonly<IPageLocator> {
+  title = '[data-test="title"]'
+  cartBadge = '[data-test="shopping-cart-badge"]'
+  checkoutButton = '[data-test="checkout"]'
+  cartListProductName = '[data-test="inventory-item-name"]'
+  cartListProductDesc = '[data-test="inventory-item-desc"]'
+  cartListProductPrice = '[data-test="inventory-item-price"]'
+  cartItem = (number: number): string =>
     `#checkout_summary_container > div > div.cart_list > div:nth-child(${number})`
 }
+
+export const CartLocator = new CartLocators()

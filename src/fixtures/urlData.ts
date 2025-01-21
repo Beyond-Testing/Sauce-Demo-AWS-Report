@@ -1,8 +1,11 @@
-export const url = {
-  basePage: 'https://www.saucedemo.com/',
-  productsPage: 'https://www.saucedemo.com/inventory.html',
-  checkoutPage: 'https://www.saucedemo.com/cart.html',
-  checkoutStepOnePage: 'https://www.saucedemo.com/checkout-step-one.html',
-  checkoutOverviewPage: 'https://www.saucedemo.com/checkout-step-two.html',
-  checkoutCompletePage: 'https://www.saucedemo.com/checkout-complete.html',
-} as const
+type Url = Record<string, string>
+
+export const basePage: Readonly<string> = 'https://www.saucedemo.com'
+
+export const url: Readonly<Url> = {
+  productsPage: `${basePage}/inventory.html`,
+  checkoutPage: `${basePage}/cart.html`,
+  checkoutStepOnePage: `${basePage}/checkout-step-one.html`,
+  checkoutOverviewPage: `${basePage}/checkout-step-two.html`,
+  checkoutCompletePage: `${basePage}/checkout-complete.html`,
+}

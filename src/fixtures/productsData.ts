@@ -1,11 +1,11 @@
-export type Product = {
+export interface IProduct {
   locator: string
   name: string
   description: string
   price: string
 }
 
-export const productDetails: Product[] = [
+export const productDetails: Array<Readonly<IProduct>> = [
   {
     locator: 'sauce-labs-backpack',
     name: 'Sauce Labs Backpack',
@@ -48,4 +48,4 @@ export const productDetails: Product[] = [
       'This classic Sauce Labs t-shirt is perfect to wear when cozying up to your keyboard to automate a few tests. Super-soft and comfy ringspun combed cotton.',
     price: '$15.99',
   },
-] as const
+]
