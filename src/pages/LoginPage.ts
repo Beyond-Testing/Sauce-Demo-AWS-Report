@@ -1,5 +1,5 @@
 import {type Page} from '@playwright/test'
-import {basePage} from '../fixtures/urlData'
+import {basePage} from '../data/urlData'
 import {clickOnElement, validateText, validateURL} from '../helpers/testUtils'
 import {LoginLocator} from '../locators/LoginLocators'
 

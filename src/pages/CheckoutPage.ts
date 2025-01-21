@@ -1,6 +1,6 @@
 import {type Page} from '@playwright/test'
 import {clickOnElement, validateText, validateURL} from '../helpers/testUtils'
-import {url} from '../fixtures/urlData'
+import {url} from '../data/urlData'
 import {CheckoutLocator} from '../locators/CheckoutLocators'
 
 export class CheckoutPage {
