@@ -56,6 +56,5 @@ export async function clickOnElement(
       throw new Error(`Unknown selector type: ${selectorType}`)
   }
 
-  await element.waitFor({state: 'visible', timeout: 10000})
   await element.click()
 }

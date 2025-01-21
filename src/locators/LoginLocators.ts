@@ -1,6 +1,15 @@
-export class LoginLocators {
-  static readonly usernameFieldSelector: string = '[data-test="username"]'
-  static readonly passwordFieldSelector: string = '[data-test="password"]'
-  static readonly loginButtonSelector: string = '[data-test="login-button"]'
-  static readonly errorMessageSelector: string = "[data-test='error']"
+interface ILoginLocators {
+  usernameField: string
+  passwordField: string
+  loginButton: string
+  errorMessage: string
 }
+
+class LoginLocators implements Readonly<ILoginLocators> {
+  usernameField = '[data-test="username"]'
+  passwordField = '[data-test="password"]'
+  loginButton = '[data-test="login-button"]'
+  errorMessage = "[data-test='error']"
+}
+
+export const LoginLocator = new LoginLocators()

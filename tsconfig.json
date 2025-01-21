@@ -1,25 +1,38 @@
 {
-    "compilerOptions": {
-        "target": "ES6",
-        "module": "commonjs",
-        "strict": true,
-        "esModuleInterop": true,
-        "skipLibCheck": true,
-        "forceConsistentCasingInFileNames": true,
-        "outDir": "./dist",
-        "rootDir": "./src",
-        "resolveJsonModule": true,
-        "typeRoots": [
-            "./node_modules/@types",
-            "./src/@types"
-        ],
-        "noUnusedLocals": true,
-        "noUnusedParameters": true
-    },
-    "include": [
-        "src/**/*.ts"
-    ],
-    "exclude": [
-        "node_modules"
-    ]
+  "compilerOptions": {
+    // JavaScript Output
+    "target": "ES2022",
+    "module": "ES2022",
+    "moduleResolution": "bundler",
+
+    // Project Structure
+    "rootDir": "./src",
+    "outDir": "./dist",
+
+    // Emit Configuration
+    "sourceMap": true,
+    "noEmit": true,
+    "noEmitOnError": true,
+
+    // Module Resolution
+    "allowImportingTsExtensions": false,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+
+    // Enhanced Type Checking
+    "strict": true,
+    "noImplicitAny": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+
+    // Code Quality
+    "allowUnreachableCode": false,
+    "skipLibCheck": true
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
 }

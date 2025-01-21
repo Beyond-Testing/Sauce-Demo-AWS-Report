@@ -1,37 +1,34 @@
 import {type Page} from '@playwright/test'
-import {Product} from '../fixtures/productsData'
-import {clickOnElement, validateText, validateURL} from '../helpers/utils'
+import {IProduct} from '../fixtures/productsData'
+import {clickOnElement, validateText, validateURL} from '../helpers/testUtils'
 import {url} from '../fixtures/urlData'
-import {CheckoutOverViewLocators} from '../locators/CheckoutOverviewLocators'
+import {CheckoutOverViewLocator} from '../locators/CheckoutOverviewLocators'
 
 export class CheckoutOverviewPage {
-  constructor(private readonly page: Page) {}
+  constructor(private readonly _page: Page) {}
 
   async verifyPageTitle(
     expectedTitle: string = 'Checkout: Overview',
   ): Promise<void> {
     await validateText(
-      this.page,
-      CheckoutOverViewLocators.titleSelector,
+      this._page,
+      CheckoutOverViewLocator.title,
       expectedTitle,
       'string',
     )
   }
 
   async completeCheckout(): Promise<void> {
-    await clickOnElement(
-      this.page,
-      CheckoutOverViewLocators.finishButtonSelector,
-    )
-    await validateURL(this.page, url.checkoutCompletePage)
+    await clickOnElement(this._page, CheckoutOverViewLocator.finishButton)
+    await validateURL(this._page, url.checkoutCompletePage)
   }
 
-  calculateTotalPriceAfterTax(
-    productDetails: Product[],
+  private _calculateTotalPriceAfterTax(
+    productDetails: IProduct[],
     taxRate: number = 0.08,
   ): string {
     const totalPriceBeforeTax = productDetails.reduce(
-      (total: number, product: Product) =>
+      (total: number, product: IProduct) =>
         total + parseFloat(product.price.replace('$', '')),
       0,
     )
@@ -40,11 +37,11 @@ export class CheckoutOverviewPage {
     return finalPrice.toFixed(2)
   }
 
-  async verifyTotalPrice(products: Product[]): Promise<void> {
-    const calculatedTotalPrice = this.calculateTotalPriceAfterTax(products)
+  async verifyTotalPrice(products: IProduct[]): Promise<void> {
+    const calculatedTotalPrice = this._calculateTotalPriceAfterTax(products)
     await validateText(
-      this.page,
-      CheckoutOverViewLocators.totalPriceAfterTaxSelector,
+      this._page,
+      CheckoutOverViewLocator.totalPriceAfterTax,
       calculatedTotalPrice,
       'substring',
     )

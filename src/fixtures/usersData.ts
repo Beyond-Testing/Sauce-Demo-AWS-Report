@@ -1,7 +1,19 @@
 import {errorMessages} from './errorMessagesData'
 import {faker} from '@faker-js/faker'
 
-export const invalidUserLoginData = [
+interface IUser {
+  username: string
+  password: string
+  errorMessage: string
+}
+
+interface IUserData {
+  firstName: string
+  lastName: string
+  postalCode: number
+}
+
+export const invalidUserLoginData: Readonly<IUser[]> = [
   {
     username: 'standard_user',
     password: 'incorrect_password',
@@ -32,19 +44,20 @@ export const invalidUserLoginData = [
     password: '',
     errorMessage: errorMessages.empty_username_error_message,
   },
-] as const
+]
 
-export const validUserLoginData = [
-  {username: 'standard_user', password: 'secret_sauce'},
-  {username: 'visual_user', password: 'secret_sauce'},
-  {username: 'problem_user', password: 'secret_sauce'},
-  {username: 'performance_glitch_user', password: 'secret_sauce'},
-  {username: 'error_user', password: 'secret_sauce'},
-  {username: 'locked_out_user', password: 'secret_sauce'},
-] as const
+export const validUserLoginData: Readonly<Array<Omit<IUser, 'errorMessage'>>> =
+  [
+    {username: 'standard_user', password: 'secret_sauce'},
+    {username: 'visual_user', password: 'secret_sauce'},
+    {username: 'problem_user', password: 'secret_sauce'},
+    {username: 'performance_glitch_user', password: 'secret_sauce'},
+    {username: 'error_user', password: 'secret_sauce'},
+    {username: 'locked_out_user', password: 'secret_sauce'},
+  ]
 
-export const randomUserDataForCheckout = {
-  firstname: faker.person.firstName('male'),
-  lastname: faker.person.lastName('male'),
-  postalcode: Number(faker.location.zipCode()),
-} as const
+export const randomUserDataForCheckout: Readonly<IUserData> = {
+  firstName: faker.person.firstName('male'),
+  lastName: faker.person.lastName('male'),
+  postalCode: Number(faker.location.zipCode()),
+}

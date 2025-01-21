@@ -1,6 +1,15 @@
-export class CheckoutCompleteLocators {
-  static readonly title = '[data-test="title"]'
-  static readonly completeOrderTitle = '[data-test="complete-header"]'
-  static readonly completeOrderDescription = '[data-test="complete-text"]'
-  static readonly backHomeButton = '[data-test="back-to-products"]'
+interface ICheckoutCompleteLocator {
+  title: string
+  completeOrderTitle: string
+  completeOrderDescription: string
+  backHomeButton: string
 }
+
+class CheckoutCompleteLocators implements Readonly<ICheckoutCompleteLocator> {
+  title = '[data-test="title"]'
+  completeOrderTitle = '[data-test="complete-header"]'
+  completeOrderDescription = '[data-test="complete-text"]'
+  backHomeButton = '[data-test="back-to-products"]'
+}
+
+export const CheckoutCompleteLocator = new CheckoutCompleteLocators()
