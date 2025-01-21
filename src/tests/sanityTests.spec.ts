@@ -1,12 +1,9 @@
 import {test} from '@playwright/test'
-import {
-  randomUserDataForCheckout,
-  validUserLoginData,
-} from '../fixtures/usersData'
-import {basePage, url} from '../fixtures/urlData'
+import {randomUserDataForCheckout, validUserLoginData} from '../data/usersData'
+import {basePage, url} from '../data/urlData'
 import {LoginPage} from '../pages/LoginPage'
 import {ProductsPage} from '../pages/ProductsPage'
-import {productDetails} from '../fixtures/productsData'
+import {productDetails} from '../data/productsData'
 import {CartPage} from '../pages/CartPage'
 import {CheckoutPage} from '../pages/CheckoutPage'
 import {CheckoutOverviewPage} from '../pages/CheckoutOverviewPage'

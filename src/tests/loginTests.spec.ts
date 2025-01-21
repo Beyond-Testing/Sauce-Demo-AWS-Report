@@ -1,10 +1,10 @@
 import {test} from '@playwright/test'
-import {invalidUserLoginData, validUserLoginData} from '../fixtures/usersData'
+import {invalidUserLoginData, validUserLoginData} from '../data/usersData'
 import {LoginPage} from '../pages/LoginPage'
-import {errorMessages} from '../fixtures/errorMessagesData'
+import {errorMessages} from '../data/errorMessagesData'
 import {ProductsPage} from '../pages/ProductsPage'
 import {validateURL} from '../helpers/testUtils'
-import {url} from '../fixtures/urlData'
+import {url} from '../data/urlData'
 
 test.describe('Positive Login Suite', () => {
   test.beforeEach(async ({page}) => {

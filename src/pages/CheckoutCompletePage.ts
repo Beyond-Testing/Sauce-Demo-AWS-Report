@@ -1,5 +1,5 @@
 import {type Page} from '@playwright/test'
-import {url} from '../fixtures/urlData'
+import {url} from '../data/urlData'
 import {clickOnElement, validateText, validateURL} from '../helpers/testUtils'
 import {CheckoutCompleteLocator} from '../locators/CheckoutCompleteLocators'
 

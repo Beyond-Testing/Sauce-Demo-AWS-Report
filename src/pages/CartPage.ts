@@ -1,7 +1,7 @@
 import {type Page} from '@playwright/test'
 import {clickOnElement, validateText, validateURL} from '../helpers/testUtils'
-import {IProduct} from '../fixtures/productsData'
-import {url} from '../fixtures/urlData'
+import {IProduct} from '../data/productsData'
+import {url} from '../data/urlData'
 import {CartLocator} from '../locators/CartLocators'
 
 export class CartPage {

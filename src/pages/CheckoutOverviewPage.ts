@@ -1,7 +1,7 @@
 import {type Page} from '@playwright/test'
-import {IProduct} from '../fixtures/productsData'
+import {IProduct} from '../data/productsData'
 import {clickOnElement, validateText, validateURL} from '../helpers/testUtils'
-import {url} from '../fixtures/urlData'
+import {url} from '../data/urlData'
 import {CheckoutOverViewLocator} from '../locators/CheckoutOverviewLocators'
 
 export class CheckoutOverviewPage {
