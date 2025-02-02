@@ -1,143 +1,143 @@
 name: Playwright Tests
 
 permissions:
-    id-token: write
-    contents: read
+  id-token: write
+  contents: read
 
 on:
-    push:
-        branches:
-            - main
-    pull_request:
-        branches:
-            - main
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
-    build:
-        name: Build Docker Image
-        runs-on: ubuntu-latest
+  build:
+    name: Build Docker Image
+    runs-on: ubuntu-latest
 
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v4
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-            - name: Set up Docker Buildx
-              uses: docker/setup-buildx-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
-            - name: Build Docker image
-              run: docker build -t my-playwright-tests .
+      - name: Build Docker image
+        run: docker build -t my-playwright-tests .
 
-            - name: Save Docker image
-              run: docker save my-playwright-tests > my-playwright-tests.tar
+      - name: Save Docker image
+        run: docker save my-playwright-tests > my-playwright-tests.tar
 
-            - name: Upload Docker image as artifact
-              uses: actions/upload-artifact@v4
-              with:
-                  name: playwright-docker-image
-                  path: my-playwright-tests.tar
+      - name: Upload Docker image as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-docker-image
+          path: my-playwright-tests.tar
 
-    run-tests:
-        name: Run Playwright Tests
-        runs-on: ubuntu-latest
-        needs: build
-        continue-on-error: true
-        timeout-minutes: 15
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v4
+  run-tests:
+    name: Run Playwright Tests
+    runs-on: ubuntu-latest
+    needs: build
+    continue-on-error: true
+    timeout-minutes: 15
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-            - name: Download Docker image artifact
-              uses: actions/download-artifact@v4
-              with:
-                  name: playwright-docker-image
+      - name: Download Docker image artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: playwright-docker-image
 
-            - name: Load Docker image
-              run: docker load -i my-playwright-tests.tar
+      - name: Load Docker image
+        run: docker load -i my-playwright-tests.tar
 
-            - name: Run Playwright tests
-              run: |
-                  docker run --rm \
-                  -v $(pwd)/playwright-report:/usr/src/app/playwright-report \
-                  my-playwright-tests
+      - name: Run Playwright tests
+        run: |
+          docker run --rm \
+          -v $(pwd)/playwright-report:/usr/src/app/playwright-report \
+          my-playwright-tests
 
-            - name: Upload Playwright report
-              if: always()
-              uses: actions/upload-artifact@v4
-              with:
-                  name: playwright-report
-                  path: playwright-report
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report
 
-    upload-to-s3:
-        name: Upload to S3 Bucket
-        runs-on: ubuntu-latest
-        needs: run-tests
-        continue-on-error: true
-        timeout-minutes: 15
-        env:
-            REPORT_DIR: playwright-report-${{ github.run_id }}
-        steps:
-            - name: Download Playwright report
-              uses: actions/download-artifact@v4
-              with:
-                  name: playwright-report
-                  path: playwright-report
+  upload-to-s3:
+    name: Upload to S3 Bucket
+    runs-on: ubuntu-latest
+    needs: run-tests
+    continue-on-error: true
+    timeout-minutes: 15
+    env:
+      REPORT_DIR: playwright-report-${{ github.run_id }}
+    steps:
+      - name: Download Playwright report
+        uses: actions/download-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report
 
-            - name: Configure AWS Credentials
-              uses: aws-actions/configure-aws-credentials@v4
-              with:
-                  role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
-                  aws-region: ${{ vars.AWS_REGION }}
-                  audience: ${{ vars.AWS_AUDIENCE }}
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION }}
+          audience: ${{ vars.AWS_AUDIENCE }}
 
-            - name: Upload to S3 bucket
-              run: |
-                  aws s3 cp playwright-report/. s3://${{ vars.AWS_S3_BUCKET }}/$REPORT_DIR --recursive
+      - name: Upload to S3 bucket
+        run: |
+          aws s3 cp playwright-report/. s3://${{ vars.AWS_S3_BUCKET }}/$REPORT_DIR --recursive
 
-            - name: Create URL file
-              run: |
-                  REPORT_URL="https://${{ vars.AWS_S3_BUCKET }}.s3.${{ vars.AWS_REGION }}.amazonaws.com/$REPORT_DIR/index.html"
-                  echo $REPORT_URL > url.txt
-                  echo "Report URL: $REPORT_URL"
+      - name: Create URL file
+        run: |
+          REPORT_URL="https://${{ vars.AWS_S3_BUCKET }}.s3.${{ vars.AWS_REGION }}.amazonaws.com/$REPORT_DIR/index.html"
+          echo $REPORT_URL > url.txt
+          echo "Report URL: $REPORT_URL"
 
-            - name: Upload URL file as artifact
-              uses: actions/upload-artifact@v4
-              with:
-                  name: report-url
-                  path: url.txt
+      - name: Upload URL file as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: report-url
+          path: url.txt
 
-    send-email:
-        name: Send Email with Report Link
-        runs-on: ubuntu-latest
-        needs: upload-to-s3
-        continue-on-error: true
-        timeout-minutes: 5
-        steps:
-            - name: Download URL file
-              uses: actions/download-artifact@v4
-              with:
-                  name: report-url
+  send-email:
+    name: Send Email with Report Link
+    runs-on: ubuntu-latest
+    needs: upload-to-s3
+    continue-on-error: true
+    timeout-minutes: 5
+    steps:
+      - name: Download URL file
+        uses: actions/download-artifact@v4
+        with:
+          name: report-url
 
-            - name: Read REPORT_URL from file
-              id: read_report_url
-              run: |
-                  REPORT_URL=$(cat url.txt)
-                  echo "REPORT_URL=$REPORT_URL" >> $GITHUB_ENV
+      - name: Read REPORT_URL from file
+        id: read_report_url
+        run: |
+          REPORT_URL=$(cat url.txt)
+          echo "REPORT_URL=$REPORT_URL" >> $GITHUB_ENV
 
-            - name: Generate Email Body
-              run: |
-                  echo "<p>The Playwright tests have completed.</p>" > email_body.html
-                  echo "<p>You can view the HTML report at the following link:</p>" >> email_body.html
-                  echo "<a href=\"${{ env.REPORT_URL }}\">View the Playwright Test Report</a>" >> email_body.html
+      - name: Generate Email Body
+        run: |
+          echo "<p>The Playwright tests have completed.</p>" > email_body.html
+          echo "<p>You can view the HTML report at the following link:</p>" >> email_body.html
+          echo "<a href=\"${{ env.REPORT_URL }}\">View the Playwright Test Report</a>" >> email_body.html
 
-            - name: Send Email with Report Link
-              if: always()
-              uses: dawidd6/action-send-mail@v3
-              with:
-                  server_address: ${{ vars.SMTP_SERVER_ADDRESS }}
-                  server_port: ${{ vars.SMTP_SERVER_PORT }}
-                  username: ${{ secrets.ORG_SMTP_USERNAME }}
-                  password: ${{ secrets.ORG_SMTP_PASSWORD }}
-                  subject: Playwright Test Report
-                  html_body: file://./email_body.html
-                  to: ${{ secrets.REPORT_RECIPIENT_EMAIL }}
-                  from: 'GitHub Actions <${{ secrets.ORG_SMTP_USERNAME }}>'
+      - name: Send Email with Report Link
+        if: always()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: ${{ vars.SMTP_SERVER_ADDRESS }}
+          server_port: ${{ vars.SMTP_SERVER_PORT }}
+          username: ${{ secrets.ORG_SMTP_USERNAME }}
+          password: ${{ secrets.ORG_SMTP_PASSWORD }}
+          subject: Playwright Test Report
+          html_body: file://./email_body.html
+          to: ${{ secrets.REPORT_RECIPIENT_EMAIL }}
+          from: 'GitHub Actions <${{ secrets.ORG_SMTP_USERNAME }}>'
