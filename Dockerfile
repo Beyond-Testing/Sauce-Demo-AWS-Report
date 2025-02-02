@@ -1,5 +1,5 @@
 # Use the official Node.js image as a base, and include Playwright dependencies
-FROM mcr.microsoft.com/playwright:v1.49.0-jammy
+FROM mcr.microsoft.com/playwright:v1.50.1-jammy
 
 # Set the working directory inside the container
 WORKDIR /usr/src/app
