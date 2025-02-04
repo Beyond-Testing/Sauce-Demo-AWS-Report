@@ -4,7 +4,11 @@ import {clickOnElement, validateText, validateURL} from '../helpers/testUtils'
 import {ProductLocator} from '../locators/ProductsLocators'
 
 export class ProductsPage {
-  constructor(private readonly _page: Page) {}
+  private readonly _page: Page
+
+  constructor(page: Page) {
+    this._page = page
+  }
 
   async verifyPageTitle(expectedTitle: string = 'Products'): Promise<void> {
     await validateText(
