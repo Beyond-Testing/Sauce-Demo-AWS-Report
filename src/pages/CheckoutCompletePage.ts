@@ -4,8 +4,12 @@ import {clickOnElement, validateText, validateURL} from '../helpers/testUtils'
 import {CheckoutCompleteLocator} from '../locators/CheckoutCompleteLocators'
 
 export class CheckoutCompletePage {
-  constructor(private readonly _page: Page) {}
+  private readonly _page: Page
 
+  constructor(page: Page) {
+    this._page = page
+  }
+  
   async verifyPageTitle(
     expectedTitle: string = 'Checkout: Complete!',
   ): Promise<void> {

@@ -4,7 +4,11 @@ import {clickOnElement, validateText, validateURL} from '../helpers/testUtils'
 import {LoginLocator} from '../locators/LoginLocators'
 
 export class LoginPage {
-  constructor(private readonly _page: Page) {}
+  private readonly _page: Page
+
+  constructor(page: Page) {
+    this._page = page
+  }
 
   async openLoginPage(): Promise<void> {
     await this._page.goto(basePage)

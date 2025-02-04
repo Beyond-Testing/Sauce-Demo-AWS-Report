@@ -5,7 +5,11 @@ import {url} from '../data/urlData'
 import {CartLocator} from '../locators/CartLocators'
 
 export class CartPage {
-  constructor(private readonly _page: Page) {}
+  private readonly _page: Page
+
+  constructor(page: Page) {
+    this._page = page
+  }
 
   async verifyPageTitle(expectedTitle: string = 'Your Cart'): Promise<void> {
     await validateText(this._page, CartLocator.title, expectedTitle, 'string')
