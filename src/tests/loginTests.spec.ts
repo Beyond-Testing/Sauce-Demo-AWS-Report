@@ -41,7 +41,6 @@ test.describe('Negative Login Suite', () => {
     await loginPage.verifyErrorMessage(errorMessages.locked_out_error_message)
   })
 
-  //This is a test
   invalidUserLoginData.forEach(({username, password, errorMessage}) => {
     test(`Verify invalid user can't login: username: ${
       username || 'empty username'
