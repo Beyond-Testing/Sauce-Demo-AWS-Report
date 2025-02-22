@@ -1,6 +1,6 @@
-import {type Page} from '@playwright/test'
+import {expect, type Page} from '@playwright/test'
 import {url} from '../data/urlData'
-import {clickOnElement, validateText, validateURL} from '../helpers/testUtils'
+import {clickOnElement, validateText} from '../helpers/testUtils'
 import {CheckoutCompleteLocator} from '../locators/CheckoutCompleteLocators'
 
 export class CheckoutCompletePage {
@@ -45,6 +45,6 @@ export class CheckoutCompletePage {
 
   async goBackToHomePage(): Promise<void> {
     await clickOnElement(this._page, CheckoutCompleteLocator.backHomeButton)
-    await validateURL(this._page, url.productsPage)
+    await expect(this._page).toHaveURL(url.productsPage)
   }
 }

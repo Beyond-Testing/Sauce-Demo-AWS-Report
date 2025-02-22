@@ -1,5 +1,5 @@
-import {type Page} from '@playwright/test'
-import {clickOnElement, validateText, validateURL} from '../helpers/testUtils'
+import {expect, type Page} from '@playwright/test'
+import {clickOnElement, validateText} from '../helpers/testUtils'
 import {url} from '../data/urlData'
 import {CheckoutLocator} from '../locators/CheckoutLocators'
 
@@ -33,6 +33,6 @@ export class CheckoutPage {
 
   async proceedToCheckoutOverviewPage(): Promise<void> {
     await clickOnElement(this._page, CheckoutLocator.continueButton)
-    await validateURL(this._page, url.checkoutOverviewPage)
+    await expect(this._page).toHaveURL(url.checkoutOverviewPage)
   }
 }

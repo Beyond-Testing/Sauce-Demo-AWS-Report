@@ -1,6 +1,6 @@
-import {type Page} from '@playwright/test'
-import {basePage, url} from '../data/urlData'
-import {clickOnElement, validateText, validateURL} from '../helpers/testUtils'
+import {expect, type Page} from '@playwright/test'
+import {basePageURL, url} from '../data/urlData'
+import {clickOnElement, validateText} from '../helpers/testUtils'
 import {ProductLocator} from '../locators/ProductsLocators'
 
 export class ProductsPage {
@@ -10,6 +10,9 @@ export class ProductsPage {
     this._page = page
   }
 
+  async validatePageURL(): Promise<void> {
+    await expect(this._page).toHaveURL(url.productsPage)
+  }
   async verifyPageTitle(expectedTitle: string = 'Products'): Promise<void> {
     await validateText(
       this._page,
@@ -25,7 +28,7 @@ export class ProductsPage {
 
   async proceedToCartPage(): Promise<void> {
     await clickOnElement(this._page, ProductLocator.cartButton)
-    await validateURL(this._page, url.checkoutPage)
+    await expect(this._page).toHaveURL(url.checkoutPage)
   }
 
   async logout(): Promise<void> {
@@ -38,6 +41,6 @@ export class ProductsPage {
       },
     )
     await clickOnElement(this._page, ProductLocator.logoutButton)
-    await validateURL(this._page, basePage)
+    await expect(this._page).toHaveURL(basePageURL)
   }
 }

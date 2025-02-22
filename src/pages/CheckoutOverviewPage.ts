@@ -1,6 +1,6 @@
-import {type Page} from '@playwright/test'
+import {expect, type Page} from '@playwright/test'
 import {IProduct} from '../data/productsData'
-import {clickOnElement, validateText, validateURL} from '../helpers/testUtils'
+import {clickOnElement, validateText} from '../helpers/testUtils'
 import {url} from '../data/urlData'
 import {CheckoutOverViewLocator} from '../locators/CheckoutOverviewLocators'
 
@@ -24,7 +24,7 @@ export class CheckoutOverviewPage {
 
   async completeCheckout(): Promise<void> {
     await clickOnElement(this._page, CheckoutOverViewLocator.finishButton)
-    await validateURL(this._page, url.checkoutCompletePage)
+    await expect(this._page).toHaveURL(url.checkoutCompletePage)
   }
 
   private _calculateTotalPriceAfterTax(

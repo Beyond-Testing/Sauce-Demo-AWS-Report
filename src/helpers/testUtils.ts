@@ -4,24 +4,20 @@ type SelectorType = 'locator' | 'role' | 'label' | 'text'
 
 type TextType = 'string' | 'substring'
 
-export async function validateURL(page: Page, url: string) {
-  await expect(page).toHaveURL(url)
-}
-
 export async function validateText(
   page: Page,
   selector: string,
-  text: string,
+  expectedText: string,
   textType: TextType,
 ) {
   const element: Locator = page.locator(selector)
 
   switch (textType) {
     case 'string':
-      await expect(element).toHaveText(text)
+      await expect(element).toHaveText(expectedText)
       break
     case 'substring':
-      await expect(element).toContainText(text)
+      await expect(element).toContainText(expectedText)
       break
     default:
       throw new Error(`Unknown selector type: ${textType}`)
