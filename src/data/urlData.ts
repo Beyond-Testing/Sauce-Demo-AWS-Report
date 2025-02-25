@@ -1,8 +1,8 @@
-type Url = Record<string, string>
+type UrlType = Record<string, string>
 
-export const basePageURL: Readonly<string> = 'https://www.saucedemo.com'
+export const basePageURL: string = 'https://www.saucedemo.com'
 
-export const url: Readonly<Url> = {
+export const url: Readonly<UrlType> = {
   productsPage: `${basePageURL}/inventory.html`,
   checkoutPage: `${basePageURL}/cart.html`,
   checkoutStepOnePage: `${basePageURL}/checkout-step-one.html`,

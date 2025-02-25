@@ -1,6 +1,6 @@
-type ErrorMessage = Record<string, string>
+type ErrorMessageType = Record<string, string>
 
-export const errorMessages: Readonly<ErrorMessage> = {
+export const errorMessages: Readonly<ErrorMessageType> = {
   locked_out_error_message:
     'Epic sadface: Sorry, this user has been locked out.',
   no_match_credentials_error_message:
