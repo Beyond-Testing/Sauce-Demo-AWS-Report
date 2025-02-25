@@ -4,9 +4,9 @@ import {errorMessages} from '../data/errorMessagesData'
 
 test.describe('Positive Login Suite', () => {
   test.beforeEach(async ({loginPage}) => {
-    //
     await loginPage.openLoginPage()
   })
+
   validUserLoginData
     .filter(({username}) => username !== 'locked_out_user')
     .forEach(({username, password}) => {
@@ -26,6 +26,7 @@ test.describe('Negative Login Suite', () => {
   test.beforeEach(async ({loginPage}) => {
     await loginPage.openLoginPage()
   })
+
   test("Verify Lockout User can't login", async ({loginPage}) => {
     const {username, password} = validUserLoginData.find(
       ({username}) => username === 'locked_out_user',
