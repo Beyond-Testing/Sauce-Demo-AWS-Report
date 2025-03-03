@@ -60,9 +60,9 @@ jobs:
           VALID_USER_PASSWORD: ${{ secrets.VALID_USER_PASSWORD }}
         run: |
           docker run --rm \
-          -e BASE_URL=$BASE_URL \ 
-          -e VALID_USER_PASSWORD=$VALID_USER_PASSWORD \
-          -v $(pwd)/playwright-report:/usr/src/app/playwright-report \
+          -e BASE_URL="$BASE_URL" \
+          -e VALID_USER_PASSWORD="$VALID_USER_PASSWORD" \
+          -v "$(pwd)/playwright-report:/usr/src/app/playwright-report" \
           my-playwright-tests
 
       - name: Upload Playwright report
