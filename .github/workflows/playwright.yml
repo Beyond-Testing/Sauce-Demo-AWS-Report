@@ -61,7 +61,7 @@ jobs:
         run: |
           docker run --rm \
           -e BASE_URL=$BASE_URL \ 
-          -e VALID_USER_PASSWORD=$VALID_USER_PASSWORD
+          -e VALID_USER_PASSWORD=$VALID_USER_PASSWORD \
           -v $(pwd)/playwright-report:/usr/src/app/playwright-report \
           my-playwright-tests
 
