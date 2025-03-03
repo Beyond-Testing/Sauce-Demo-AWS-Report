@@ -42,10 +42,10 @@ jobs:
     needs: build
     continue-on-error: true
     timeout-minutes: 15
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
       - name: Download Docker image artifact
         uses: actions/download-artifact@v4
         with:
@@ -55,6 +55,9 @@ jobs:
         run: docker load -i my-playwright-tests.tar
 
       - name: Run Playwright tests
+        env:
+          BASE_URL: ${{ secrets.BASE_URL }}
+          VALID_USER_PASSWORD: ${{ secrets.VALID_USER_PASSWORD }}
         run: |
           docker run --rm \
           -v $(pwd)/playwright-report:/usr/src/app/playwright-report \
