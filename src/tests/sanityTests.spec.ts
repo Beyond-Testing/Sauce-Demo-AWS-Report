@@ -1,11 +1,14 @@
 import test from '../fixtures/testSetup'
-import {randomUserDataForCheckout, validUserLoginData} from '../data/usersData'
-import {basePageURL} from '../data/urlData'
+import {
+  RANDOM_USER_DATA_FOR_CHECKOUT,
+  VALID_USER_LOGIN_DATA,
+} from '../data/usersData'
+import {BASE_PAGE_URL} from '../data/urlData'
 import {productDetails} from '../data/productsData'
 
 test.describe('Sanity Tests', () => {
   test.beforeEach(async ({page}) => {
-    await page.goto(basePageURL)
+    await page.goto(BASE_PAGE_URL)
   })
   test('Verify user can purchase and complete an order', async ({
     loginPage,
@@ -15,7 +18,7 @@ test.describe('Sanity Tests', () => {
     checkoutOverviewPage,
     checkoutCompletePage,
   }) => {
-    const {username, password} = validUserLoginData.find(
+    const {username, password} = VALID_USER_LOGIN_DATA.find(
       ({username}) => username === 'standard_user',
     ) || {username: '', password: ''}
     await loginPage.login(username, password)
@@ -29,7 +32,7 @@ test.describe('Sanity Tests', () => {
     await cartPage.verifyNumberOfItemsCartBadge(productDetails.length)
     await cartPage.proceedToCheckoutPage()
     await checkoutPage.verifyPageTitle()
-    const {firstName, lastName, postalCode} = randomUserDataForCheckout
+    const {firstName, lastName, postalCode} = RANDOM_USER_DATA_FOR_CHECKOUT
     await checkoutPage.fillCheckoutForm(firstName, lastName, postalCode)
     await checkoutPage.proceedToCheckoutOverviewPage()
     await checkoutOverviewPage.verifyPageTitle()

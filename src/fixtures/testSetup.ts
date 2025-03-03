@@ -1,4 +1,4 @@
-import {test as base} from '@playwright/test'
+import {test as base, type BrowserContext, type Page} from '@playwright/test'
 import {CartPage} from '../pages/CartPage'
 import {CheckoutCompletePage} from '../pages/CheckoutCompletePage'
 import {CheckoutOverviewPage} from '../pages/CheckoutOverviewPage'
@@ -6,7 +6,9 @@ import {CheckoutPage} from '../pages/CheckoutPage'
 import {LoginPage} from '../pages/LoginPage'
 import {ProductsPage} from '../pages/ProductsPage'
 
-interface ITestFixtures {
+interface IPageFixtures {
+  context: BrowserContext
+  page: Page
   cartPage: CartPage
   checkoutCompletePage: CheckoutCompletePage
   checkoutOverviewPage: CheckoutOverviewPage
@@ -15,7 +17,16 @@ interface ITestFixtures {
   productsPage: ProductsPage
 }
 
-const test = base.extend<ITestFixtures>({
+const test = base.extend<IPageFixtures>({
+  context: async ({browser}, use) => {
+    const context = await browser.newContext()
+    await use(context)
+    await context.close()
+  },
+  page: async ({context}, use) => {
+    const page = await context.newPage()
+    await use(page)
+  },
   cartPage: async ({page}, use) => {
     await use(new CartPage(page))
   },

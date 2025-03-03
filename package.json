@@ -22,5 +22,8 @@
     "@types/node": "latest",
     "ts-node": "latest",
     "typescript": "latest"
+  },
+  "dependencies": {
+    "dotenv": "latest"
   }
 }

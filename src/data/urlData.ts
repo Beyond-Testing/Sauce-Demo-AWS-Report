@@ -1,11 +1,15 @@
-type UrlType = Record<string, string>
+import dotenv from 'dotenv'
 
-export const basePageURL: string = 'https://www.saucedemo.com'
+dotenv.config()
 
-export const url: Readonly<UrlType> = {
-  productsPage: `${basePageURL}/inventory.html`,
-  checkoutPage: `${basePageURL}/cart.html`,
-  checkoutStepOnePage: `${basePageURL}/checkout-step-one.html`,
-  checkoutOverviewPage: `${basePageURL}/checkout-step-two.html`,
-  checkoutCompletePage: `${basePageURL}/checkout-complete.html`,
+type URLType = Record<string, string>
+
+export const BASE_PAGE_URL: string = process.env.BASE_URL as string
+
+export const URL: Readonly<URLType> = {
+  productsPage: `${BASE_PAGE_URL}/inventory.html`,
+  checkoutPage: `${BASE_PAGE_URL}/cart.html`,
+  checkoutStepOnePage: `${BASE_PAGE_URL}/checkout-step-one.html`,
+  checkoutOverviewPage: `${BASE_PAGE_URL}/checkout-step-two.html`,
+  checkoutCompletePage: `${BASE_PAGE_URL}/checkout-complete.html`,
 }

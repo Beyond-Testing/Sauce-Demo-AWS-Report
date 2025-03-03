@@ -1,5 +1,11 @@
 import {errorMessages} from './errorMessagesData'
 import {faker} from '@faker-js/faker'
+import dotenv from 'dotenv'
+
+dotenv.config()
+
+const VALID_PASSWORD: Readonly<string> = process.env
+  .VALID_USER_PASSWORD as string
 
 interface IUser {
   username: string
@@ -13,7 +19,7 @@ interface IUserData {
   postalCode: number
 }
 
-export const invalidUserLoginData: Readonly<IUser[]> = [
+export const INVALID_USER_LOGIN_DATA: Readonly<IUser[]> = [
   {
     username: 'standard_user',
     password: 'incorrect_password',
@@ -21,7 +27,7 @@ export const invalidUserLoginData: Readonly<IUser[]> = [
   },
   {
     username: 'incorrect_username',
-    password: 'secret_sauce',
+    password: VALID_PASSWORD,
     errorMessage: errorMessages.no_match_credentials_error_message,
   },
   {
@@ -31,7 +37,7 @@ export const invalidUserLoginData: Readonly<IUser[]> = [
   },
   {
     username: '',
-    password: 'secret_sauce',
+    password: VALID_PASSWORD,
     errorMessage: errorMessages.empty_username_error_message,
   },
   {
@@ -46,17 +52,27 @@ export const invalidUserLoginData: Readonly<IUser[]> = [
   },
 ]
 
-export const validUserLoginData: Readonly<Array<Omit<IUser, 'errorMessage'>>> =
-  [
-    {username: 'standard_user', password: 'secret_sauce'},
-    {username: 'visual_user', password: 'secret_sauce'},
-    {username: 'problem_user', password: 'secret_sauce'},
-    {username: 'performance_glitch_user', password: 'secret_sauce'},
-    {username: 'error_user', password: 'secret_sauce'},
-    {username: 'locked_out_user', password: 'secret_sauce'},
-  ]
+export const VALID_USER_LOGIN_DATA: Readonly<
+  Array<Omit<IUser, 'errorMessage'>>
+> = [
+  {
+    username: 'standard_user',
+    password: VALID_PASSWORD,
+  },
+  {
+    username: 'visual_user',
+    password: VALID_PASSWORD,
+  },
+  {username: 'problem_user', password: VALID_PASSWORD},
+  {
+    username: 'performance_glitch_user',
+    password: VALID_PASSWORD,
+  },
+  {username: 'error_user', password: VALID_PASSWORD},
+  {username: 'locked_out_user', password: VALID_PASSWORD},
+]
 
-export const randomUserDataForCheckout: Readonly<IUserData> = {
+export const RANDOM_USER_DATA_FOR_CHECKOUT: Readonly<IUserData> = {
   firstName: faker.person.firstName('male'),
   lastName: faker.person.lastName('male'),
   postalCode: Number(faker.location.zipCode()),

@@ -1,7 +1,7 @@
 import {expect, type Page} from '@playwright/test'
 import {clickOnElement, validateText} from '../helpers/testUtils'
 import {IProduct} from '../data/productsData'
-import {url} from '../data/urlData'
+import {URL} from '../data/urlData'
 import {CartLocator} from '../locators/CartLocators'
 
 export class CartPage {
@@ -26,7 +26,7 @@ export class CartPage {
 
   async proceedToCheckoutPage(): Promise<void> {
     await clickOnElement(this._page, CartLocator.checkoutButton)
-    await expect(this._page).toHaveURL(url.checkoutStepOnePage)
+    await expect(this._page).toHaveURL(URL.checkoutStepOnePage)
   }
 
   async verifyProductsInCart(productArray: IProduct[]): Promise<void> {

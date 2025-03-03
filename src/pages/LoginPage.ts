@@ -1,5 +1,5 @@
 import {expect, type Page} from '@playwright/test'
-import {basePageURL} from '../data/urlData'
+import {BASE_PAGE_URL} from '../data/urlData'
 import {clickOnElement, validateText} from '../helpers/testUtils'
 import {LoginLocator} from '../locators/LoginLocators'
 
@@ -11,8 +11,8 @@ export class LoginPage {
   }
 
   async openLoginPage(): Promise<void> {
-    await this._page.goto(basePageURL)
-    await expect(this._page).toHaveURL(basePageURL)
+    await this._page.goto(BASE_PAGE_URL)
+    await expect(this._page).toHaveURL(BASE_PAGE_URL)
   }
 
   async login(username: string, password: string): Promise<void> {
