@@ -1,4 +1,4 @@
-interface IPageLocator {
+interface ICartLocators {
   title: string
   cartBadge: string
   checkoutButton: string
@@ -8,7 +8,7 @@ interface IPageLocator {
   cartItem: (number: number) => string
 }
 
-class CartLocators implements Readonly<IPageLocator> {
+class CartLocators implements Readonly<ICartLocators> {
   title = '[data-test="title"]'
   cartBadge = '[data-test="shopping-cart-badge"]'
   checkoutButton = '[data-test="checkout"]'
