@@ -1,5 +1,8 @@
 {
   "compilerOptions": {
+    "paths": {
+      "@/*": ["./src/*"]
+    },
     // JavaScript Output
     "target": "ES2022", // Converts TypeScript code to ES2022 JavaScript features
     "module": "ES2022", // Generates ES2022 module format (import/export statements)
