@@ -1,50 +1,48 @@
-import {expect, type Page} from '@playwright/test'
-import {URL} from '../data/urlData'
-import {clickOnElement, validateText} from '../helpers/testUtils'
-import {CheckoutCompleteLocator} from '../locators/CheckoutCompleteLocators'
+import {type Page} from '@playwright/test'
+import {URL} from '@/data/urlData'
+import {CheckoutCompleteLocator} from '@/locators/CheckoutCompleteLocators'
+import {BasePage} from '@/helpers/BasePage'
+import test from '@/fixtures/testSetup'
 
-export class CheckoutCompletePage {
-  private readonly _page: Page
-
+export class CheckoutCompletePage extends BasePage {
   constructor(page: Page) {
-    this._page = page
+    super(page)
   }
-  
+
   async verifyPageTitle(
     expectedTitle: string = 'Checkout: Complete!',
   ): Promise<void> {
-    await validateText(
-      this._page,
-      CheckoutCompleteLocator.title,
-      expectedTitle,
-      'string',
-    )
+    await test.step('Verify page title', async () => {
+      await this.validateText(CheckoutCompleteLocator.title, expectedTitle)
+    })
   }
 
   async verifyOrderTitle(
     expectedTitle: string = 'Thank you for your order!',
   ): Promise<void> {
-    await validateText(
-      this._page,
-      CheckoutCompleteLocator.completeOrderTitle,
-      expectedTitle,
-      'string',
-    )
+    await test.step('Verify order title', async () => {
+      await this.validateText(
+        CheckoutCompleteLocator.completeOrderTitle,
+        expectedTitle,
+      )
+    })
   }
 
   async verifyOrderDescription(
     expectedDescription: string = 'Your order has been dispatched, and will arrive just as fast as the pony can get there!',
   ): Promise<void> {
-    await validateText(
-      this._page,
-      CheckoutCompleteLocator.completeOrderDescription,
-      expectedDescription,
-      'string',
-    )
+    await test.step('Verify order description', async () => {
+      await this.validateText(
+        CheckoutCompleteLocator.completeOrderDescription,
+        expectedDescription,
+      )
+    })
   }
 
   async goBackToHomePage(): Promise<void> {
-    await clickOnElement(this._page, CheckoutCompleteLocator.backHomeButton)
-    await expect(this._page).toHaveURL(URL.productsPage)
+    await test.step('Go back to home page', async () => {
+      await this.clickOnElement(CheckoutCompleteLocator.backHomeButton)
+      await this.validateURL(URL.productsPage)
+    })
   }
 }

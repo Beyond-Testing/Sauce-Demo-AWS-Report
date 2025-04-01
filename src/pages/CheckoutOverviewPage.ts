@@ -1,30 +1,13 @@
-import {expect, type Page} from '@playwright/test'
-import {IProduct} from '../data/productsData'
-import {clickOnElement, validateText} from '../helpers/testUtils'
-import {URL} from '../data/urlData'
-import {CheckoutOverViewLocator} from '../locators/CheckoutOverviewLocators'
+import {type Page} from '@playwright/test'
+import {IProduct} from '@/data/productsData'
+import {URL} from '@/data/urlData'
+import {CheckoutOverViewLocator} from '@/locators/CheckoutOverviewLocators'
+import {BasePage} from '@/helpers/BasePage'
+import test from '@/fixtures/testSetup'
 
-export class CheckoutOverviewPage {
-  private readonly _page: Page
-
+export class CheckoutOverviewPage extends BasePage {
   constructor(page: Page) {
-    this._page = page
-  }
-
-  async verifyPageTitle(
-    expectedTitle: string = 'Checkout: Overview',
-  ): Promise<void> {
-    await validateText(
-      this._page,
-      CheckoutOverViewLocator.title,
-      expectedTitle,
-      'string',
-    )
-  }
-
-  async completeCheckout(): Promise<void> {
-    await clickOnElement(this._page, CheckoutOverViewLocator.finishButton)
-    await expect(this._page).toHaveURL(URL.checkoutCompletePage)
+    super(page)
   }
 
   private _calculateTotalPriceAfterTax(
@@ -41,13 +24,29 @@ export class CheckoutOverviewPage {
     return finalPrice.toFixed(2)
   }
 
+  async verifyPageTitle(
+    expectedTitle: string = 'Checkout: Overview',
+  ): Promise<void> {
+    await test.step('Verify page title', async () => {
+      await this.validateText(CheckoutOverViewLocator.title, expectedTitle)
+    })
+  }
+
+  async completeCheckout(): Promise<void> {
+    await test.step('Complete checkout', async () => {
+      await this.clickOnElement(CheckoutOverViewLocator.finishButton)
+      await this.validateURL(URL.checkoutCompletePage)
+    })
+  }
+
   async verifyTotalPrice(products: IProduct[]): Promise<void> {
-    const calculatedTotalPrice = this._calculateTotalPriceAfterTax(products)
-    await validateText(
-      this._page,
-      CheckoutOverViewLocator.totalPriceAfterTax,
-      calculatedTotalPrice,
-      'substring',
-    )
+    await test.step('Verify total price', async () => {
+      const calculatedTotalPrice = this._calculateTotalPriceAfterTax(products)
+      await this.validateText(
+        CheckoutOverViewLocator.totalPriceAfterTax,
+        calculatedTotalPrice,
+        'substring',
+      )
+    })
   }
 }

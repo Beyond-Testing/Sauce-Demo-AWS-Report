@@ -1,38 +1,39 @@
-import {expect, type Page} from '@playwright/test'
-import {clickOnElement, validateText} from '../helpers/testUtils'
-import {IProduct} from '../data/productsData'
-import {URL} from '../data/urlData'
-import {CartLocator} from '../locators/CartLocators'
-
-export class CartPage {
-  private readonly _page: Page
-
+import {type Page} from '@playwright/test'
+import {IProduct} from '@/data/productsData'
+import {URL} from '@/data/urlData'
+import {CartLocator} from '@/locators/CartLocators'
+import {BasePage} from '@/helpers/BasePage'
+import test from '@/fixtures/testSetup'
+export class CartPage extends BasePage {
   constructor(page: Page) {
-    this._page = page
+    super(page)
   }
 
   async verifyPageTitle(expectedTitle: string = 'Your Cart'): Promise<void> {
-    await validateText(this._page, CartLocator.title, expectedTitle, 'string')
+    await test.step('Verify page title', async () => {
+      await this.validateText(CartLocator.title, expectedTitle)
+    })
   }
 
   async verifyNumberOfItemsCartBadge(numberOfItems: number): Promise<void> {
-    await validateText(
-      this._page,
-      CartLocator.cartBadge,
-      numberOfItems.toString(),
-      'string',
-    )
+    await test.step('Verify number of items in cart badge', async () => {
+      await this.validateText(CartLocator.cartBadge, numberOfItems.toString())
+    })
   }
 
   async proceedToCheckoutPage(): Promise<void> {
-    await clickOnElement(this._page, CartLocator.checkoutButton)
-    await expect(this._page).toHaveURL(URL.checkoutStepOnePage)
+    await test.step('Proceed to checkout page', async () => {
+      await this.clickOnElement(CartLocator.checkoutButton)
+      await this.validateURL(URL.checkoutStepOnePage)
+    })
   }
 
   async verifyProductsInCart(productArray: IProduct[]): Promise<void> {
-    productArray.forEach(async (product, index) => {
-      const productLocator = CartLocator.cartItem(index + 3)
-      await this._verifySingleProductInCart(productLocator, product)
+    await test.step('Verify products in cart', async () => {
+      productArray.forEach(async (product, index) => {
+        const productLocator = CartLocator.cartItem(index + 3)
+        await this._verifySingleProductInCart(productLocator, product)
+      })
     })
   }
 
@@ -40,23 +41,22 @@ export class CartPage {
     productLocator: string,
     product: IProduct,
   ): Promise<void> {
-    await validateText(
-      this._page,
-      `${productLocator} ${CartLocator.cartListProductName}`,
-      product.name,
-      'substring',
-    )
-    await validateText(
-      this._page,
-      `${productLocator} ${CartLocator.cartListProductDesc}`,
-      product.description,
-      'substring',
-    )
-    await validateText(
-      this._page,
-      `${productLocator} ${CartLocator.cartListProductPrice}`,
-      product.price,
-      'substring',
-    )
+    await test.step('Verify single product in cart', async () => {
+      await this.validateText(
+        `${productLocator} ${CartLocator.cartListProductName}`,
+        product.name,
+        'substring',
+      )
+      await this.validateText(
+        `${productLocator} ${CartLocator.cartListProductDesc}`,
+        product.description,
+        'substring',
+      )
+      await this.validateText(
+        `${productLocator} ${CartLocator.cartListProductPrice}`,
+        product.price,
+        'substring',
+      )
+    })
   }
 }

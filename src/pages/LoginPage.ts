@@ -1,32 +1,32 @@
-import {expect, type Page} from '@playwright/test'
-import {BASE_PAGE_URL} from '../data/urlData'
-import {clickOnElement, validateText} from '../helpers/testUtils'
-import {LoginLocator} from '../locators/LoginLocators'
+import {type Page} from '@playwright/test'
+import {BASE_PAGE_URL} from '@/data/urlData'
+import {LoginLocator} from '@/locators/LoginLocators'
+import {BasePage} from '@/helpers/BasePage'
+import test from '@/fixtures/testSetup'
 
-export class LoginPage {
-  private readonly _page: Page
-
+export class LoginPage extends BasePage {
   constructor(page: Page) {
-    this._page = page
+    super(page)
   }
 
   async openLoginPage(): Promise<void> {
-    await this._page.goto(BASE_PAGE_URL)
-    await expect(this._page).toHaveURL(BASE_PAGE_URL)
+    await test.step('Open login page', async () => {
+      await this.gotoURL(BASE_PAGE_URL)
+      await this.validateURL(BASE_PAGE_URL)
+    })
   }
 
   async login(username: string, password: string): Promise<void> {
-    await this._page.locator(LoginLocator.usernameField).fill(username)
-    await this._page.locator(LoginLocator.passwordField).fill(password)
-    await clickOnElement(this._page, LoginLocator.loginButton)
+    await test.step('Login', async () => {
+      await this.fillInput(LoginLocator.usernameField, username)
+      await this.fillInput(LoginLocator.passwordField, password)
+      await this.clickOnElement(LoginLocator.loginButton)
+    })
   }
 
   async verifyErrorMessage(expectedErrorMessage: string): Promise<void> {
-    await validateText(
-      this._page,
-      LoginLocator.errorMessage,
-      expectedErrorMessage,
-      'string',
-    )
+    await test.step('Verify error message', async () => {
+      await this.validateText(LoginLocator.errorMessage, expectedErrorMessage)
+    })
   }
 }

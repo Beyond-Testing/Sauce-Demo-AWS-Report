@@ -1,22 +1,18 @@
-import {expect, type Page} from '@playwright/test'
-import {clickOnElement, validateText} from '../helpers/testUtils'
-import {URL} from '../data/urlData'
-import {CheckoutLocator} from '../locators/CheckoutLocators'
+import {type Page} from '@playwright/test'
+import {URL} from '@/data/urlData'
+import {CheckoutLocator} from '@/locators/CheckoutLocators'
+import {BasePage} from '@/helpers/BasePage'
+import test from '@/fixtures/testSetup'
 
-export class CheckoutPage {
-  private readonly _page: Page
-
+export class CheckoutPage extends BasePage {
   constructor(page: Page) {
-    this._page = page
+    super(page)
   }
 
   async verifyPageTitle(expectedTitle: string = 'Checkout: Your Information') {
-    await validateText(
-      this._page,
-      CheckoutLocator.title,
-      expectedTitle,
-      'string',
-    )
+    await test.step('Verify page title', async () => {
+      await this.validateText(CheckoutLocator.title, expectedTitle)
+    })
   }
 
   async fillCheckoutForm(
@@ -24,15 +20,20 @@ export class CheckoutPage {
     lastName: string,
     postalCode: number,
   ): Promise<void> {
-    await this._page.locator(CheckoutLocator.firstNameField).fill(firstName)
-    await this._page.locator(CheckoutLocator.lastNameField).fill(lastName)
-    await this._page
-      .locator(CheckoutLocator.postalCodeField)
-      .fill(postalCode.toString())
+    await test.step('Fill checkout form', async () => {
+      await this.fillInput(CheckoutLocator.firstNameField, firstName)
+      await this.fillInput(CheckoutLocator.lastNameField, lastName)
+      await this.fillInput(
+        CheckoutLocator.postalCodeField,
+        postalCode.toString(),
+      )
+    })
   }
 
   async proceedToCheckoutOverviewPage(): Promise<void> {
-    await clickOnElement(this._page, CheckoutLocator.continueButton)
-    await expect(this._page).toHaveURL(URL.checkoutOverviewPage)
+    await test.step('Proceed to checkout overview page', async () => {
+      await this.clickOnElement(CheckoutLocator.continueButton)
+      await this.validateURL(URL.checkoutOverviewPage)
+    })
   }
 }

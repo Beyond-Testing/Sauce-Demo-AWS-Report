@@ -17,13 +17,13 @@
     "chrome": "playwright test --project=chromium"
   },
   "devDependencies": {
-    "@faker-js/faker": "latest",
-    "@playwright/test": "latest",
-    "@types/node": "latest",
-    "ts-node": "latest",
-    "typescript": "latest"
+    "@faker-js/faker": "9.4.0",
+    "@playwright/test": "1.51.1",
+    "@types/node": "22.13.0",
+    "ts-node": "10.9.2",
+    "typescript": "5.7.3"
   },
   "dependencies": {
-    "dotenv": "latest"
+    "dotenv": "16.4.7"
   }
 }
