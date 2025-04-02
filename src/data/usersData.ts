@@ -1,25 +1,22 @@
-import {errorMessages} from './errorMessagesData'
+import {getEnvVariable} from '@/core/utils'
+import {errorMessages} from '@/data/errorMessagesData'
 import {faker} from '@faker-js/faker'
-import dotenv from 'dotenv'
 
-dotenv.config()
+const VALID_PASSWORD: string = getEnvVariable('VALID_USER_PASSWORD')
 
-const VALID_PASSWORD: Readonly<string> = process.env
-  .VALID_USER_PASSWORD as string
-
-interface IUser {
+interface User {
   username: string
   password: string
   errorMessage: string
 }
 
-interface IUserData {
+interface UserData {
   firstName: string
   lastName: string
   postalCode: number
 }
 
-export const INVALID_USER_LOGIN_DATA: Readonly<IUser[]> = [
+export const INVALID_USER_LOGIN_DATA: Readonly<User[]> = [
   {
     username: 'standard_user',
     password: 'incorrect_password',
@@ -53,7 +50,7 @@ export const INVALID_USER_LOGIN_DATA: Readonly<IUser[]> = [
 ]
 
 export const VALID_USER_LOGIN_DATA: Readonly<
-  Array<Omit<IUser, 'errorMessage'>>
+  Array<Omit<User, 'errorMessage'>>
 > = [
   {
     username: 'standard_user',
@@ -72,8 +69,10 @@ export const VALID_USER_LOGIN_DATA: Readonly<
   {username: 'locked_out_user', password: VALID_PASSWORD},
 ]
 
-export const RANDOM_USER_DATA_FOR_CHECKOUT: Readonly<IUserData> = {
-  firstName: faker.person.firstName('male'),
-  lastName: faker.person.lastName('male'),
-  postalCode: Number(faker.location.zipCode()),
+export const generateRandomUserData = (): UserData => {
+  return {
+    firstName: faker.person.firstName(),
+    lastName: faker.person.lastName(),
+    postalCode: Number(faker.location.zipCode()),
+  }
 }

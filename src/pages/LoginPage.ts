@@ -1,7 +1,7 @@
 import {type Page} from '@playwright/test'
 import {BASE_PAGE_URL} from '@/data/urlData'
 import {LoginLocator} from '@/locators/LoginLocators'
-import {BasePage} from '@/helpers/BasePage'
+import {BasePage} from '@/core/BasePage'
 import test from '@/fixtures/testSetup'
 
 export class LoginPage extends BasePage {

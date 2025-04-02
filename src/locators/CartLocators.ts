@@ -1,4 +1,4 @@
-interface ICartLocators {
+interface CartLocators {
   title: string
   cartBadge: string
   checkoutButton: string
@@ -8,7 +8,7 @@ interface ICartLocators {
   cartItem: (number: number) => string
 }
 
-class CartLocators implements Readonly<ICartLocators> {
+class CartLocators implements Readonly<CartLocators> {
   title = '[data-test="title"]'
   cartBadge = '[data-test="shopping-cart-badge"]'
   checkoutButton = '[data-test="checkout"]'

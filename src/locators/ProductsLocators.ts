@@ -3,7 +3,7 @@ type MenuButtonType = {
   name: string
 }
 
-interface IProductLocators {
+interface ProductLocators {
   cartButton: string
   title: string
   openHamburgerMenu: MenuButtonType
@@ -11,7 +11,7 @@ interface IProductLocators {
   addToCartItem: (item: string) => string
 }
 
-class ProductLocators implements Readonly<IProductLocators> {
+class ProductLocators implements Readonly<ProductLocators> {
   cartButton = '[data-test="shopping-cart-link"]'
   title = '[data-test="title"]'
   openHamburgerMenu: MenuButtonType = {

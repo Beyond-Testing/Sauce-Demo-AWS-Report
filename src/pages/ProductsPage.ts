@@ -1,7 +1,7 @@
 import {type Page} from '@playwright/test'
 import {BASE_PAGE_URL, URL} from '@/data/urlData'
 import {ProductLocator} from '@/locators/ProductsLocators'
-import {BasePage} from '@/helpers/BasePage'
+import {BasePage} from '@/core/BasePage'
 import test from '@/fixtures/testSetup'
 
 export class ProductsPage extends BasePage {

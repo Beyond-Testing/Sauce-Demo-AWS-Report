@@ -1,7 +1,7 @@
 import {type Page} from '@playwright/test'
 import {URL} from '@/data/urlData'
 import {CheckoutCompleteLocator} from '@/locators/CheckoutCompleteLocators'
-import {BasePage} from '@/helpers/BasePage'
+import {BasePage} from '@/core/BasePage'
 import test from '@/fixtures/testSetup'
 
 export class CheckoutCompletePage extends BasePage {

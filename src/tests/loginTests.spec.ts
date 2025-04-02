@@ -1,12 +1,12 @@
-import test from '../fixtures/testSetup'
-import {INVALID_USER_LOGIN_DATA, VALID_USER_LOGIN_DATA} from '../data/usersData'
-import {errorMessages} from '../data/errorMessagesData'
+import test from '@/fixtures/testSetup'
+import {INVALID_USER_LOGIN_DATA, VALID_USER_LOGIN_DATA} from '@/data/usersData'
+import {errorMessages} from '@/data/errorMessagesData'
 
-test.describe('Positive Login Suite', () => {
-  test.beforeEach(async ({loginPage}) => {
+test.describe('Valid Login Suite', () => {
+  test.beforeEach('Open login page', async ({loginPage}) => {
     await loginPage.openLoginPage()
   })
-
+  // Filter out locked out user from the user test data
   VALID_USER_LOGIN_DATA.filter(
     ({username}) => username !== 'locked_out_user',
   ).forEach(({username, password}) => {
@@ -22,8 +22,8 @@ test.describe('Positive Login Suite', () => {
   })
 })
 
-test.describe('Negative Login Suite', () => {
-  test.beforeEach(async ({loginPage}) => {
+test.describe('Invalid Login Suite', () => {
+  test.beforeEach('Open login page', async ({loginPage}) => {
     await loginPage.openLoginPage()
   })
 

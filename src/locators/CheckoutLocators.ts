@@ -1,4 +1,4 @@
-interface ICheckoutCompleteLocator {
+interface CheckoutCompleteLocator {
   title: string
   firstNameField: string
   lastNameField: string
@@ -6,7 +6,7 @@ interface ICheckoutCompleteLocator {
   continueButton: string
 }
 
-class CheckoutLocators implements Readonly<ICheckoutCompleteLocator> {
+class CheckoutLocators implements Readonly<CheckoutCompleteLocator> {
   title = '[data-test="title"]'
   firstNameField = '[data-test="firstName"]'
   lastNameField = '[data-test="lastName"]'

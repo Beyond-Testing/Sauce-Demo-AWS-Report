@@ -1,9 +1,10 @@
 import {type Page} from '@playwright/test'
-import {IProduct} from '@/data/productsData'
+import {Product} from '@/data/productsData'
 import {URL} from '@/data/urlData'
 import {CartLocator} from '@/locators/CartLocators'
-import {BasePage} from '@/helpers/BasePage'
+import {BasePage} from '@/core/BasePage'
 import test from '@/fixtures/testSetup'
+
 export class CartPage extends BasePage {
   constructor(page: Page) {
     super(page)
@@ -28,7 +29,7 @@ export class CartPage extends BasePage {
     })
   }
 
-  async verifyProductsInCart(productArray: IProduct[]): Promise<void> {
+  async verifyProductsInCart(productArray: Product[]): Promise<void> {
     await test.step('Verify products in cart', async () => {
       productArray.forEach(async (product, index) => {
         const productLocator = CartLocator.cartItem(index + 3)
@@ -39,7 +40,7 @@ export class CartPage extends BasePage {
 
   private async _verifySingleProductInCart(
     productLocator: string,
-    product: IProduct,
+    product: Product,
   ): Promise<void> {
     await test.step('Verify single product in cart', async () => {
       await this.validateText(

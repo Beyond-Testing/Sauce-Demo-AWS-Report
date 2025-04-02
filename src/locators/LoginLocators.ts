@@ -1,11 +1,11 @@
-interface ILoginLocators {
+interface LoginLocators {
   usernameField: string
   passwordField: string
   loginButton: string
   errorMessage: string
 }
 
-class LoginLocators implements Readonly<ILoginLocators> {
+class LoginLocators implements Readonly<LoginLocators> {
   usernameField = '[data-test="username"]'
   passwordField = '[data-test="password"]'
   loginButton = '[data-test="login-button"]'

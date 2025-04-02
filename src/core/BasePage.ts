@@ -1,7 +1,6 @@
 import {expect, type Page, type Locator} from '@playwright/test'
 
 type SelectorType = 'locator' | 'role' | 'label' | 'text'
-
 type TextType = 'string' | 'substring'
 
 export class BasePage {

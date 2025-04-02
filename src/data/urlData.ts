@@ -1,10 +1,8 @@
-import dotenv from 'dotenv'
-
-dotenv.config()
+import {getEnvVariable} from '@/core/utils'
 
 type URLType = Record<string, string>
 
-export const BASE_PAGE_URL: string = process.env.BASE_URL as string
+export const BASE_PAGE_URL:string = getEnvVariable('BASE_URL')
 
 export const URL: Readonly<URLType> = {
   productsPage: `${BASE_PAGE_URL}/inventory.html`,

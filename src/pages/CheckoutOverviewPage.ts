@@ -1,8 +1,8 @@
 import {type Page} from '@playwright/test'
-import {IProduct} from '@/data/productsData'
+import {Product} from '@/data/productsData'
 import {URL} from '@/data/urlData'
 import {CheckoutOverViewLocator} from '@/locators/CheckoutOverviewLocators'
-import {BasePage} from '@/helpers/BasePage'
+import {BasePage} from '@/core/BasePage'
 import test from '@/fixtures/testSetup'
 
 export class CheckoutOverviewPage extends BasePage {
@@ -11,11 +11,11 @@ export class CheckoutOverviewPage extends BasePage {
   }
 
   private _calculateTotalPriceAfterTax(
-    productDetails: IProduct[],
+    productDetails: Product[],
     taxRate: number = 0.08,
   ): string {
     const totalPriceBeforeTax = productDetails.reduce(
-      (total: number, product: IProduct) =>
+      (total: number, product: Product) =>
         total + parseFloat(product.price.replace('$', '')),
       0,
     )
@@ -39,7 +39,7 @@ export class CheckoutOverviewPage extends BasePage {
     })
   }
 
-  async verifyTotalPrice(products: IProduct[]): Promise<void> {
+  async verifyTotalPrice(products: Product[]): Promise<void> {
     await test.step('Verify total price', async () => {
       const calculatedTotalPrice = this._calculateTotalPriceAfterTax(products)
       await this.validateText(

@@ -1,11 +1,11 @@
-export interface IProduct {
+export interface Product {
   locator: string
   name: string
   description: string
   price: string
 }
 
-export const productDetails: Array<Readonly<IProduct>> = [
+export const productDetails: Array<Readonly<Product>> = [
   {
     locator: 'sauce-labs-backpack',
     name: 'Sauce Labs Backpack',
