@@ -1,6 +1,6 @@
 import {type Page} from '@playwright/test'
 import {URL} from '@/data/urlData'
-import {CheckoutLocator} from '@/locators/CheckoutLocators'
+import {CHECKOUT_LOCATORS} from '@/locators/CheckoutLocators'
 import {BasePage} from '@/core/BasePage'
 import test from '@/fixtures/testSetup'
 
@@ -11,7 +11,7 @@ export class CheckoutPage extends BasePage {
 
   async verifyPageTitle(expectedTitle: string = 'Checkout: Your Information') {
     await test.step('Verify page title', async () => {
-      await this.validateText(CheckoutLocator.title, expectedTitle)
+      await this.validateText(CHECKOUT_LOCATORS.title, expectedTitle)
     })
   }
 
@@ -21,10 +21,10 @@ export class CheckoutPage extends BasePage {
     postalCode: number,
   ): Promise<void> {
     await test.step('Fill checkout form', async () => {
-      await this.fillInput(CheckoutLocator.firstNameField, firstName)
-      await this.fillInput(CheckoutLocator.lastNameField, lastName)
+      await this.fillInput(CHECKOUT_LOCATORS.firstNameField, firstName)
+      await this.fillInput(CHECKOUT_LOCATORS.lastNameField, lastName)
       await this.fillInput(
-        CheckoutLocator.postalCodeField,
+        CHECKOUT_LOCATORS.postalCodeField,
         postalCode.toString(),
       )
     })
@@ -32,7 +32,7 @@ export class CheckoutPage extends BasePage {
 
   async proceedToCheckoutOverviewPage(): Promise<void> {
     await test.step('Proceed to checkout overview page', async () => {
-      await this.clickOnElement(CheckoutLocator.continueButton)
+      await this.clickOnElement(CHECKOUT_LOCATORS.continueButton)
       await this.validateURL(URL.checkoutOverviewPage)
     })
   }

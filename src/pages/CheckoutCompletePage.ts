@@ -1,6 +1,6 @@
 import {type Page} from '@playwright/test'
 import {URL} from '@/data/urlData'
-import {CheckoutCompleteLocator} from '@/locators/CheckoutCompleteLocators'
+import {CHECKOUT_COMPLETE_LOCATORS} from '@/locators/CheckoutCompleteLocators'
 import {BasePage} from '@/core/BasePage'
 import test from '@/fixtures/testSetup'
 
@@ -13,7 +13,7 @@ export class CheckoutCompletePage extends BasePage {
     expectedTitle: string = 'Checkout: Complete!',
   ): Promise<void> {
     await test.step('Verify page title', async () => {
-      await this.validateText(CheckoutCompleteLocator.title, expectedTitle)
+      await this.validateText(CHECKOUT_COMPLETE_LOCATORS.title, expectedTitle)
     })
   }
 
@@ -22,7 +22,7 @@ export class CheckoutCompletePage extends BasePage {
   ): Promise<void> {
     await test.step('Verify order title', async () => {
       await this.validateText(
-        CheckoutCompleteLocator.completeOrderTitle,
+        CHECKOUT_COMPLETE_LOCATORS.completeOrderTitle,
         expectedTitle,
       )
     })
@@ -33,7 +33,7 @@ export class CheckoutCompletePage extends BasePage {
   ): Promise<void> {
     await test.step('Verify order description', async () => {
       await this.validateText(
-        CheckoutCompleteLocator.completeOrderDescription,
+        CHECKOUT_COMPLETE_LOCATORS.completeOrderDescription,
         expectedDescription,
       )
     })
@@ -41,7 +41,7 @@ export class CheckoutCompletePage extends BasePage {
 
   async goBackToHomePage(): Promise<void> {
     await test.step('Go back to home page', async () => {
-      await this.clickOnElement(CheckoutCompleteLocator.backHomeButton)
+      await this.clickOnElement(CHECKOUT_COMPLETE_LOCATORS.backHomeButton)
       await this.validateURL(URL.productsPage)
     })
   }

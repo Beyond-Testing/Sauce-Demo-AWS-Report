@@ -1,7 +1,6 @@
 import {expect, type Page, type Locator} from '@playwright/test'
 
 type SelectorType = 'locator' | 'role' | 'label' | 'text'
-type TextType = 'string' | 'substring'
 
 export class BasePage {
   protected page: Page
@@ -13,7 +12,7 @@ export class BasePage {
   protected async validateText(
     selector: string,
     expectedText: string,
-    textType: TextType = 'string',
+    textType: 'string' | 'substring' = 'string',
   ): Promise<void> {
     const element: Locator = this.page.locator(selector)
 

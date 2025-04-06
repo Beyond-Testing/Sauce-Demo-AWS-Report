@@ -1,7 +1,7 @@
 import {type Page} from '@playwright/test'
-import {Product} from '@/data/productsData'
+import {type Product} from '@/data/productsData'
 import {URL} from '@/data/urlData'
-import {CheckoutOverViewLocator} from '@/locators/CheckoutOverviewLocators'
+import {CHECKOUT_OVERVIEW_LOCATORS} from '@/locators/CheckoutOverviewLocators'
 import {BasePage} from '@/core/BasePage'
 import test from '@/fixtures/testSetup'
 
@@ -28,13 +28,13 @@ export class CheckoutOverviewPage extends BasePage {
     expectedTitle: string = 'Checkout: Overview',
   ): Promise<void> {
     await test.step('Verify page title', async () => {
-      await this.validateText(CheckoutOverViewLocator.title, expectedTitle)
+      await this.validateText(CHECKOUT_OVERVIEW_LOCATORS.title, expectedTitle)
     })
   }
 
   async completeCheckout(): Promise<void> {
     await test.step('Complete checkout', async () => {
-      await this.clickOnElement(CheckoutOverViewLocator.finishButton)
+      await this.clickOnElement(CHECKOUT_OVERVIEW_LOCATORS.finishButton)
       await this.validateURL(URL.checkoutCompletePage)
     })
   }
@@ -43,7 +43,7 @@ export class CheckoutOverviewPage extends BasePage {
     await test.step('Verify total price', async () => {
       const calculatedTotalPrice = this._calculateTotalPriceAfterTax(products)
       await this.validateText(
-        CheckoutOverViewLocator.totalPriceAfterTax,
+        CHECKOUT_OVERVIEW_LOCATORS.totalPriceAfterTax,
         calculatedTotalPrice,
         'substring',
       )

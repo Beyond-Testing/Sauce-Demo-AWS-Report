@@ -1,7 +1,7 @@
 import {type Page} from '@playwright/test'
-import {Product} from '@/data/productsData'
+import {type Product} from '@/data/productsData'
 import {URL} from '@/data/urlData'
-import {CartLocator} from '@/locators/CartLocators'
+import {CART_LOCATORS} from '@/locators/CartLocators'
 import {BasePage} from '@/core/BasePage'
 import test from '@/fixtures/testSetup'
 
@@ -12,19 +12,19 @@ export class CartPage extends BasePage {
 
   async verifyPageTitle(expectedTitle: string = 'Your Cart'): Promise<void> {
     await test.step('Verify page title', async () => {
-      await this.validateText(CartLocator.title, expectedTitle)
+      await this.validateText(CART_LOCATORS.title, expectedTitle)
     })
   }
 
   async verifyNumberOfItemsCartBadge(numberOfItems: number): Promise<void> {
     await test.step('Verify number of items in cart badge', async () => {
-      await this.validateText(CartLocator.cartBadge, numberOfItems.toString())
+      await this.validateText(CART_LOCATORS.cartBadge, numberOfItems.toString())
     })
   }
 
   async proceedToCheckoutPage(): Promise<void> {
     await test.step('Proceed to checkout page', async () => {
-      await this.clickOnElement(CartLocator.checkoutButton)
+      await this.clickOnElement(CART_LOCATORS.checkoutButton)
       await this.validateURL(URL.checkoutStepOnePage)
     })
   }
@@ -32,7 +32,7 @@ export class CartPage extends BasePage {
   async verifyProductsInCart(productArray: Product[]): Promise<void> {
     await test.step('Verify products in cart', async () => {
       productArray.forEach(async (product, index) => {
-        const productLocator = CartLocator.cartItem(index + 3)
+        const productLocator = CART_LOCATORS.cartItem(index + 3)
         await this._verifySingleProductInCart(productLocator, product)
       })
     })
@@ -44,17 +44,17 @@ export class CartPage extends BasePage {
   ): Promise<void> {
     await test.step('Verify single product in cart', async () => {
       await this.validateText(
-        `${productLocator} ${CartLocator.cartListProductName}`,
+        `${productLocator} ${CART_LOCATORS.cartListProductName}`,
         product.name,
         'substring',
       )
       await this.validateText(
-        `${productLocator} ${CartLocator.cartListProductDesc}`,
+        `${productLocator} ${CART_LOCATORS.cartListProductDesc}`,
         product.description,
         'substring',
       )
       await this.validateText(
-        `${productLocator} ${CartLocator.cartListProductPrice}`,
+        `${productLocator} ${CART_LOCATORS.cartListProductPrice}`,
         product.price,
         'substring',
       )

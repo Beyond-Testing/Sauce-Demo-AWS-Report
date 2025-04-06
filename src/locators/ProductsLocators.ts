@@ -1,25 +1,21 @@
-type MenuButtonType = {
-  role: 'button'
-  name: string
-}
-
-interface ProductLocators {
+type ProductLocators = {
   cartButton: string
   title: string
-  openHamburgerMenu: MenuButtonType
+  openHamburgerMenu: {
+    role: 'button'
+    name: string
+  }
   logoutButton: string
   addToCartItem: (item: string) => string
 }
 
-class ProductLocators implements Readonly<ProductLocators> {
-  cartButton = '[data-test="shopping-cart-link"]'
-  title = '[data-test="title"]'
-  openHamburgerMenu: MenuButtonType = {
+export const PRODUCT_LOCATORS: ProductLocators = {
+  cartButton: '[data-test="shopping-cart-link"]',
+  title: '[data-test="title"]',
+  openHamburgerMenu: {
     role: 'button',
     name: 'Open Menu',
-  }
-  logoutButton = '[data-test="logout-sidebar-link"]'
-  addToCartItem = (item: string): string => `[data-test="add-to-cart-${item}"]`
-}
-
-export const ProductLocator = new ProductLocators()
+  },
+  logoutButton: '[data-test="logout-sidebar-link"]',
+  addToCartItem: (item: string): string => `[data-test="add-to-cart-${item}"]`,
+} as const

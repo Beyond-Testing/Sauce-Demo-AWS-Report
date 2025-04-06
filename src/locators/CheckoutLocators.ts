@@ -1,4 +1,4 @@
-interface CheckoutCompleteLocator {
+type CheckoutLocators = {
   title: string
   firstNameField: string
   lastNameField: string
@@ -6,12 +6,10 @@ interface CheckoutCompleteLocator {
   continueButton: string
 }
 
-class CheckoutLocators implements Readonly<CheckoutCompleteLocator> {
-  title = '[data-test="title"]'
-  firstNameField = '[data-test="firstName"]'
-  lastNameField = '[data-test="lastName"]'
-  postalCodeField = '[data-test="postalCode"]'
-  continueButton = '[data-test="continue"]'
-}
-
-export const CheckoutLocator = new CheckoutLocators()
+export const CHECKOUT_LOCATORS: CheckoutLocators = {
+  title: '[data-test="title"]',
+  firstNameField: '[data-test="firstName"]',
+  lastNameField: '[data-test="lastName"]',
+  postalCodeField: '[data-test="postalCode"]',
+  continueButton: '[data-test="continue"]',
+} as const

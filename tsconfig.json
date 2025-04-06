@@ -1,41 +1,26 @@
 {
   "compilerOptions": {
+    /* Core Settings */
     "paths": {
       "@/*": ["./src/*"]
     },
-    // JavaScript Output
-    "target": "ES2022", // Converts TypeScript code to ES2022 JavaScript features
-    "module": "ES2022", // Generates ES2022 module format (import/export statements)
-    "moduleResolution": "bundler", // Uses bundler-style module resolution for import statements
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "target": "es2022",
+    "moduleDetection": "force",
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true,
 
-    // Project Structure
-    "rootDir": "./src", // Sets the root folder containing TypeScript source files
-    "outDir": "./dist", // Sets the output folder for compiled JavaScript files
+    /* Strictness */
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
 
-    // Emit Configuration
-    "sourceMap": true, // Generates .map files to enable debugging of TypeScript in browsers
-    "noEmit": false, // Allows TypeScript to generate output files (.js, .d.ts, etc.)
-    "noEmitOnError": true, // Prevents generating output files if TypeScript finds errors
+    /* Transpiling with TypeScript */
+    "module": "preserve",
+    "outDir": "dist",
 
-    // Module Resolution
-    "allowImportingTsExtensions": false, // Prevents importing files using .ts extension directly
-    "resolveJsonModule": true, // Allows importing .json files as modules with type checking
-    "esModuleInterop": true, // Enables importing CommonJS modules like ES6 modules
-    "forceConsistentCasingInFileNames": true, // Prevents importing same file with different casing
-
-    // Enhanced Type Checking
-    "strict": true, // Enables all strict type checking rules for better code quality
-    "noImplicitAny": true, // Requires explicit type declarations instead of using 'any'
-    "noUnusedLocals": true, // Reports errors for declared variables that aren't used
-    "noUnusedParameters": true, // Reports errors for function parameters that aren't used
-    "noImplicitReturns": true, // Ensures all code paths in a function return a value
-    "noFallthroughCasesInSwitch": true, // Requires break/return between switch cases
-    "noImplicitOverride": true, // Requires 'override' keyword when overriding parent methods
-
-    // Code Quality
-    "allowUnreachableCode": false, // Reports errors for code that can never be executed
-    "skipLibCheck": true // Skips type checking of external library declaration files
-  },
-  "include": ["src/**/*"], // Specifies which files to include in compilation process
-  "exclude": ["node_modules"] // Specifies which folders to exclude from compilation
+    /* Not Running in the DOM */
+    "lib": ["es2022"]
+  }
 }
