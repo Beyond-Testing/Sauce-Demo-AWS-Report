@@ -20,7 +20,7 @@
     "module": "preserve",
     "outDir": "dist",
 
-    /* Not Running in the DOM */
-    "lib": ["es2022"]
+    /* Running in the DOM */
+    "lib": ["es2022", "dom", "dom.iterable"]
   }
 }
