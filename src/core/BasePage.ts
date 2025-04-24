@@ -9,69 +9,74 @@ export class BasePage {
     this.page = page
   }
 
+  // Handle different types of selectors in one method
+  protected getElementType(
+    selector: string,
+    selectorType: SelectorType = 'locator',
+    roleOptions?: {name: string},
+  ): Locator {
+    // Default element is locator type
+    let element: Locator = this.page.locator(selector)
+
+    if (selectorType === 'role') {
+      if (!roleOptions?.name) {
+        throw new Error("Name option is required for 'role' selector")
+      }
+      element = this.page.getByRole(selector as any, {
+        name: roleOptions?.name,
+      })
+    }
+    if (selectorType === 'label') {
+      element = this.page.getByLabel(selector)
+    }
+    if (selectorType === 'text') {
+      element = this.page.getByText(selector)
+    }
+    return element
+  }
+
   protected async validateText(
     selector: string,
-    expectedText: string,
+    text: string,
     textType: 'string' | 'substring' = 'string',
+    selectorType: SelectorType = 'locator',
   ): Promise<void> {
-    const element: Locator = this.page.locator(selector)
+    const element: Locator = this.getElementType(selector, selectorType)
 
-    switch (textType) {
-      case 'string':
-        await expect(element).toHaveText(expectedText)
-        break
-      case 'substring':
-        await expect(element).toContainText(expectedText)
-        break
-      default:
-        throw new Error(`Unknown selector type: ${textType}`)
+    if (textType === 'string') {
+      await expect(element).toHaveText(text)
+    }
+    if (textType === 'substring') {
+      await expect(element).toContainText(text)
     }
   }
 
   protected async clickOnElement(
     selector: string,
     selectorType: SelectorType = 'locator',
-    options?: {name: string},
+    roleOptions?: {name: string},
   ): Promise<void> {
-    try {
-      let element: Locator
-
-      switch (selectorType) {
-        case 'locator':
-          element = this.page.locator(selector)
-          break
-        case 'role':
-          if (!options?.name) {
-            throw new Error("Name option is required for 'role' selector")
-          }
-          element = this.page.getByRole(selector as 'button', {
-            name: options.name,
-          })
-          break
-        case 'label':
-          element = this.page.getByLabel(selector)
-          break
-        case 'text':
-          element = this.page.getByText(selector)
-          break
-        default:
-          throw new Error(`Unknown selector type: ${selectorType}`)
-      }
-
-      await element.click()
-    } catch (err) {
-      throw new Error(`Unable to click on element: ${selector}`)
-    }
+    const element: Locator = this.getElementType(
+      selector,
+      selectorType,
+      roleOptions,
+    )
+    await element.click()
   }
 
   protected async validateURL(expectedURL: string): Promise<void> {
     await expect(this.page).toHaveURL(expectedURL)
   }
+
   protected async gotoURL(url: string): Promise<void> {
     await this.page.goto(url)
   }
-
-  protected async fillInput(selector: string, text: string): Promise<void> {
-    await this.page.locator(selector).fill(text)
+  protected async fillInput(
+    selector: string,
+    text: string,
+    selectorType: SelectorType = 'locator',
+  ): Promise<void> {
+    const element: Locator = this.getElementType(selector, selectorType)
+    await element.fill(text)
   }
 }
