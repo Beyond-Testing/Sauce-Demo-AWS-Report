@@ -14,6 +14,7 @@ test.describe('Valid Login Suite', () => {
       loginPage,
       productsPage,
     }) => {
+
       await loginPage.login(username, password)
       await productsPage.validatePageURL()
       await productsPage.verifyPageTitle()
@@ -28,9 +29,14 @@ test.describe('Invalid Login Suite', () => {
   })
 
   test("Verify Lockout User can't login", async ({loginPage}) => {
-    const {username, password} = VALID_USER_LOGIN_DATA.find(
-      ({username}) => username === 'locked_out_user',
-    )!
+    // Find a username by name: 'locked_out_user', if not (undefined), throw an error
+    const {username, password} =
+      VALID_USER_LOGIN_DATA.find(
+        ({username}) => username === 'locked_out_user',
+      ) ??
+      (() => {
+        throw new Error('Locked out user not found in test data')
+      })()
     await loginPage.login(username, password)
     await loginPage.verifyErrorMessage(errorMessages.locked_out_error_message)
   })
