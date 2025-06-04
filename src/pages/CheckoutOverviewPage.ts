@@ -1,6 +1,6 @@
 import {type Page} from '@playwright/test'
-import {type Product} from '@/data/productsData'
-import {URL} from '@/data/urlData'
+import {type Product} from '@/data/products'
+import {URL} from '@/data/urls'
 import {CHECKOUT_OVERVIEW_LOCATORS} from '@/locators/CheckoutOverviewLocators'
 import {BasePage} from '@/core/BasePage'
 import test from '@/fixtures/testSetup'

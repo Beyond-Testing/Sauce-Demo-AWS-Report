@@ -1,5 +1,5 @@
 import {type Page} from '@playwright/test'
-import {URL} from '@/data/urlData'
+import {URL} from '@/data/urls'
 import {CHECKOUT_LOCATORS} from '@/locators/CheckoutLocators'
 import {BasePage} from '@/core/BasePage'
 import test from '@/fixtures/testSetup'

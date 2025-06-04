@@ -1,6 +1,6 @@
 import test from '@/fixtures/testSetup'
-import {INVALID_USER_LOGIN_DATA, VALID_USER_LOGIN_DATA} from '@/data/usersData'
-import {errorMessages} from '@/data/errorMessagesData'
+import {INVALID_USER_LOGIN_DATA, VALID_USER_LOGIN_DATA} from '@/data/users'
+import {errorMessages} from '@/data/errorMessages'
 
 test.describe('Valid Login Suite', () => {
   test.beforeEach('Open login page', async ({loginPage}) => {
@@ -14,7 +14,6 @@ test.describe('Valid Login Suite', () => {
       loginPage,
       productsPage,
     }) => {
-
       await loginPage.login(username, password)
       await productsPage.validatePageURL()
       await productsPage.verifyPageTitle()
