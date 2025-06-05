@@ -1,5 +1,5 @@
 import {BasePage} from '@/core/BasePage'
-import {BASE_PAGE_URL} from '@/data/urls'
+import {BASE_URL} from '@/data/urls'
 import test from '@/fixtures/testSetup'
 import {LOGIN_LOCATORS} from '@/locators/LoginLocators'
 import type {Page} from '@playwright/test'
@@ -11,8 +11,8 @@ export class LoginPage extends BasePage {
 
   async openLoginPage(): Promise<void> {
     await test.step('Open login page', async () => {
-      await this.gotoURL(BASE_PAGE_URL)
-      await this.validateURL(BASE_PAGE_URL)
+      await this.gotoURL(BASE_URL)
+      await this.validateURL(BASE_URL)
     })
   }
 

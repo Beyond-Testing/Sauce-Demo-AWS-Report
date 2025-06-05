@@ -1,11 +1,11 @@
 import {productDetails} from '@/data/products'
-import {BASE_PAGE_URL} from '@/data/urls'
+import {BASE_URL} from '@/data/urls'
 import {VALID_USER_LOGIN_DATA, generateRandomUserData} from '@/data/users'
 import test from '@/fixtures/testSetup'
 
 test.describe('Sanity Tests', () => {
   test.beforeEach('Open main page', async ({page}) => {
-    await page.goto(BASE_PAGE_URL)
+    await page.goto(BASE_URL)
   })
   test('Verify user can purchase and complete an order', async ({
     loginPage,

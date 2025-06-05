@@ -1,5 +1,5 @@
 import {BasePage} from '@/core/BasePage'
-import {BASE_PAGE_URL, URL} from '@/data/urls'
+import {BASE_URL, URL} from '@/data/urls'
 import test from '@/fixtures/testSetup'
 import {PRODUCT_LOCATORS} from '@/locators/ProductsLocators'
 import type {Page} from '@playwright/test'
@@ -39,7 +39,7 @@ export class ProductsPage extends BasePage {
       const {role, name} = PRODUCT_LOCATORS.openHamburgerMenu
       await this.clickOnElement(role, 'role', {name})
       await this.clickOnElement(PRODUCT_LOCATORS.logoutButton)
-      await this.validateURL(BASE_PAGE_URL)
+      await this.validateURL(BASE_URL)
     })
   }
 }
