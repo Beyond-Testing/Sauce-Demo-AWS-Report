@@ -1,7 +1,7 @@
 import type {Locator, Page} from '@playwright/test'
 import {expect} from '@playwright/test'
 
-type SelectorType = 'locator' | 'role' | 'label' | 'text'
+type LocatorType = 'locator' | 'role' | 'label' | 'text'
 
 export class BasePage {
   protected page: Page
@@ -10,39 +10,39 @@ export class BasePage {
     this.page = page
   }
 
-  // Handle different types of selectors in one method
+  // Handle different types of locators in one method
   protected getElementType(
-    selector: string,
-    selectorType: SelectorType = 'locator',
+    locator: string,
+    locatorType: LocatorType = 'locator',
     roleOptions?: {name: string},
   ): Locator {
     // Default element is locator type
-    let element: Locator = this.page.locator(selector)
+    let element: Locator = this.page.locator(locator)
 
-    if (selectorType === 'role') {
+    if (locatorType === 'role') {
       if (!roleOptions?.name) {
-        throw new Error("Name option is required for 'role' selector")
+        throw new Error("Name option is required for 'role' locator")
       }
-      element = this.page.getByRole(selector as any, {
+      element = this.page.getByRole(locator as any, {
         name: roleOptions?.name,
       })
     }
-    if (selectorType === 'label') {
-      element = this.page.getByLabel(selector)
+    if (locatorType === 'label') {
+      element = this.page.getByLabel(locator)
     }
-    if (selectorType === 'text') {
-      element = this.page.getByText(selector)
+    if (locatorType === 'text') {
+      element = this.page.getByText(locator)
     }
     return element
   }
 
   protected async validateText(
-    selector: string,
+    locator: string,
     text: string,
     textType: 'string' | 'substring' = 'string',
-    selectorType: SelectorType = 'locator',
+    locatorType: LocatorType = 'locator',
   ): Promise<void> {
-    const element: Locator = this.getElementType(selector, selectorType)
+    const element: Locator = this.getElementType(locator, locatorType)
 
     if (textType === 'string') {
       await expect(element).toHaveText(text)
@@ -53,13 +53,13 @@ export class BasePage {
   }
 
   protected async clickOnElement(
-    selector: string,
-    selectorType: SelectorType = 'locator',
+    locator: string,
+    locatorType: LocatorType = 'locator',
     roleOptions?: {name: string},
   ): Promise<void> {
     const element: Locator = this.getElementType(
-      selector,
-      selectorType,
+      locator,
+      locatorType,
       roleOptions,
     )
     await element.click()
@@ -73,11 +73,11 @@ export class BasePage {
     await this.page.goto(url)
   }
   protected async fillInput(
-    selector: string,
+    locator: string,
     text: string,
-    selectorType: SelectorType = 'locator',
+    locatorType: LocatorType = 'locator',
   ): Promise<void> {
-    const element: Locator = this.getElementType(selector, selectorType)
+    const element: Locator = this.getElementType(locator, locatorType)
     await element.fill(text)
   }
 }
