@@ -1,8 +1,8 @@
-import {type Page} from '@playwright/test'
-import {BASE_PAGE_URL, URL} from '@/data/urls'
-import {PRODUCT_LOCATORS} from '@/locators/ProductsLocators'
 import {BasePage} from '@/core/BasePage'
+import {BASE_PAGE_URL, URL} from '@/data/urls'
 import test from '@/fixtures/testSetup'
+import {PRODUCT_LOCATORS} from '@/locators/ProductsLocators'
+import type {Page} from '@playwright/test'
 
 export class ProductsPage extends BasePage {
   constructor(page: Page) {

@@ -1,7 +1,7 @@
-import test from '@/fixtures/testSetup'
-import {generateRandomUserData, VALID_USER_LOGIN_DATA} from '@/data/users'
-import {BASE_PAGE_URL} from '@/data/urls'
 import {productDetails} from '@/data/products'
+import {BASE_PAGE_URL} from '@/data/urls'
+import {VALID_USER_LOGIN_DATA, generateRandomUserData} from '@/data/users'
+import test from '@/fixtures/testSetup'
 
 test.describe('Sanity Tests', () => {
   test.beforeEach('Open main page', async ({page}) => {

@@ -1,6 +1,6 @@
-import test from '@/fixtures/testSetup'
+import {errorMessages} from '@/data/errorMessagesData'
 import {INVALID_USER_LOGIN_DATA, VALID_USER_LOGIN_DATA} from '@/data/users'
-import {errorMessages} from '@/data/errorMessages'
+import test from '@/fixtures/testSetup'
 
 test.describe('Valid Login Suite', () => {
   test.beforeEach('Open login page', async ({loginPage}) => {

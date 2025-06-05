@@ -1,8 +1,8 @@
-import {type Page} from '@playwright/test'
-import {URL} from '@/data/urls'
-import {CHECKOUT_LOCATORS} from '@/locators/CheckoutLocators'
 import {BasePage} from '@/core/BasePage'
+import {URL} from '@/data/urls'
 import test from '@/fixtures/testSetup'
+import {CHECKOUT_LOCATORS} from '@/locators/CheckoutLocators'
+import type {Page} from '@playwright/test'
 
 export class CheckoutPage extends BasePage {
   constructor(page: Page) {

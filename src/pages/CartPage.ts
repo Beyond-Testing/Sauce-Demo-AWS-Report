@@ -1,9 +1,9 @@
-import {type Page} from '@playwright/test'
-import {type Product} from '@/data/products'
-import {URL} from '@/data/urls'
-import {CART_LOCATORS} from '@/locators/CartLocators'
 import {BasePage} from '@/core/BasePage'
+import type {Product} from '@/data/products'
+import {URL} from '@/data/urls'
 import test from '@/fixtures/testSetup'
+import {CART_LOCATORS} from '@/locators/CartLocators'
+import type {Page} from '@playwright/test'
 
 export class CartPage extends BasePage {
   constructor(page: Page) {

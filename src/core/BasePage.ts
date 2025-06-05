@@ -1,4 +1,5 @@
-import {expect, type Page, type Locator} from '@playwright/test'
+import type {Locator, Page} from '@playwright/test'
+import {expect} from '@playwright/test'
 
 type SelectorType = 'locator' | 'role' | 'label' | 'text'
 

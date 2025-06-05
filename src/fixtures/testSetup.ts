@@ -1,10 +1,11 @@
-import {test as base, type BrowserContext, type Page} from '@playwright/test'
 import {CartPage} from '@/pages/CartPage'
 import {CheckoutCompletePage} from '@/pages/CheckoutCompletePage'
 import {CheckoutOverviewPage} from '@/pages/CheckoutOverviewPage'
 import {CheckoutPage} from '@/pages/CheckoutPage'
 import {LoginPage} from '@/pages/LoginPage'
 import {ProductsPage} from '@/pages/ProductsPage'
+import type {BrowserContext, Page} from '@playwright/test'
+import {test as base} from '@playwright/test'
 
 interface PageFixtures {
   context: BrowserContext

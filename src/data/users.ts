@@ -1,5 +1,5 @@
 import {getEnvVariable} from '@/core/utils'
-import {errorMessages} from '@/data/errorMessages'
+import {errorMessages} from '@/data/errorMessagesData'
 import {faker} from '@faker-js/faker'
 
 const VALID_PASSWORD: string = getEnvVariable('VALID_USER_PASSWORD')
