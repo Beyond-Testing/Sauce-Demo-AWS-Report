@@ -1,83 +1,50 @@
+import {LocatorUtils} from '@/core/LocatorUtils'
 import type {Locator, Page} from '@playwright/test'
 import {expect} from '@playwright/test'
 
-type LocatorType = 'locator' | 'role' | 'label' | 'text'
+type stringOrRoleLocatorType = string | {role: string; name: string}
 
-export class BasePage {
-  protected page: Page
-
+export class BasePage extends LocatorUtils {
   constructor(page: Page) {
-    this.page = page
+    super(page)
   }
 
-  // Handle different types of locators in one method
-  protected getElementType(
-    locator: string,
-    locatorType: LocatorType = 'locator',
-    roleOptions?: {name: string},
-  ): Locator {
-    // Default element is locator type
-    let element: Locator = this.page.locator(locator)
-
-    if (locatorType === 'role') {
-      if (!roleOptions?.name) {
-        throw new Error("Name option is required for 'role' locator")
-      }
-      element = this.page.getByRole(locator as any, {
-        name: roleOptions?.name,
-      })
-    }
-    if (locatorType === 'label') {
-      element = this.page.getByLabel(locator)
-    }
-    if (locatorType === 'text') {
-      element = this.page.getByText(locator)
-    }
-    return element
-  }
-
+  // Validate text of an element
   protected async validateText(
-    locator: string,
+    locator: stringOrRoleLocatorType,
     text: string,
-    textType: 'string' | 'substring' = 'string',
-    locatorType: LocatorType = 'locator',
   ): Promise<void> {
-    const element: Locator = this.getElementType(locator, locatorType)
-
-    if (textType === 'string') {
-      await expect(element).toHaveText(text)
-    }
-    if (textType === 'substring') {
-      await expect(element).toContainText(text)
+    const extractedLocator = this.extractLocator(locator)
+    try {
+      await expect(extractedLocator).toHaveText(text)
+    } catch {
+      try {
+        await expect(extractedLocator).toContainText(text)
+      } catch (error) {
+        throw new Error(
+          `Element with locator "${locator}" does not contain text "${text}". Error: ${error}`,
+        )
+      }
     }
   }
-
-  protected async clickOnElement(
-    locator: string,
-    locatorType: LocatorType = 'locator',
-    roleOptions?: {name: string},
-  ): Promise<void> {
-    const element: Locator = this.getElementType(
-      locator,
-      locatorType,
-      roleOptions,
-    )
-    await element.click()
-  }
-
+  // Validate URL of the page
   protected async validateURL(expectedURL: string): Promise<void> {
     await expect(this.page).toHaveURL(expectedURL)
   }
-
+  // Navigate to a specific URL
   protected async gotoURL(url: string): Promise<void> {
     await this.page.goto(url)
   }
-  protected async fillInput(
-    locator: string,
-    text: string,
-    locatorType: LocatorType = 'locator',
+  // Click on an element
+  protected async clickOnElement(
+    locator: stringOrRoleLocatorType,
   ): Promise<void> {
-    const element: Locator = this.getElementType(locator, locatorType)
-    await element.fill(text)
+    const extractedLocator: Locator = this.extractLocator(locator)
+    await extractedLocator.click()
+  }
+  // Fill an input field with text
+  protected async fillInput(locator: string, text: string): Promise<void> {
+    const extractedLocator: Locator = this.extractLocator(locator)
+    await extractedLocator.fill(text)
   }
 }

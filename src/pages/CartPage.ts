@@ -46,17 +46,14 @@ export class CartPage extends BasePage {
       await this.validateText(
         `${productLocator} ${CART_LOCATORS.cartListProductName}`,
         product.name,
-        'substring',
       )
       await this.validateText(
         `${productLocator} ${CART_LOCATORS.cartListProductDesc}`,
         product.description,
-        'substring',
       )
       await this.validateText(
         `${productLocator} ${CART_LOCATORS.cartListProductPrice}`,
         product.price,
-        'substring',
       )
     })
   }

@@ -36,8 +36,7 @@ export class ProductsPage extends BasePage {
 
   async logout(): Promise<void> {
     await test.step('Logout', async () => {
-      const {role, name} = PRODUCT_LOCATORS.openHamburgerMenu
-      await this.clickOnElement(role, 'role', {name})
+      await this.clickOnElement(PRODUCT_LOCATORS.openHamburgerMenu)
       await this.clickOnElement(PRODUCT_LOCATORS.logoutButton)
       await this.validateURL(BASE_URL)
     })

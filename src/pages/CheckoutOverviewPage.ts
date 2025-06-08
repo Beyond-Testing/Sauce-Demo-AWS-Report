@@ -45,7 +45,6 @@ export class CheckoutOverviewPage extends BasePage {
       await this.validateText(
         CHECKOUT_OVERVIEW_LOCATORS.totalPriceAfterTax,
         calculatedTotalPrice,
-        'substring',
       )
     })
   }
