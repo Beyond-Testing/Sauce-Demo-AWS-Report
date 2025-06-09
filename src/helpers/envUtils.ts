@@ -2,9 +2,9 @@ import dotenv from 'dotenv'
 
 dotenv.config()
 
-export const getEnvVariable = (variableName: string): string => {
-  if (!process.env[variableName]) {
-    throw new Error(`Environment variable ${variableName} is not set.`)
+export const getEnvCredentials = (credentials: string): string => {
+  if (!process.env[credentials]) {
+    throw new Error(`Environment variable ${credentials} is not set.`)
   }
-  return process.env[variableName]
+  return process.env[credentials] as string
 }

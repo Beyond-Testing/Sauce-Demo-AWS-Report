@@ -1,5 +1,7 @@
 # Copilot Instructions
 
+## Project Overview
+
 This project is a Playwright test automation framework built with TypeScript using the Page Object Model (POM) pattern. The framework is designed for end-to-end testing of web applications with a focus on maintainability, reusability, and scalability.
 
 ## Project Structure
@@ -23,29 +25,63 @@ src/
 - **LocatorUtils**: Handles different locator strategies (string, role-based, label-based)
 - **Custom Fixtures**: Extends Playwright's base test with pre-configured page object instances
 - **Path Aliases**: Uses `@/*` for clean imports (configured in tsconfig.json)
+- **Inheritance Pattern**: `LocatorUtils` → `BasePage` → Specific Page Classes
+- **Fixture Pattern**: Pre-configured page object instances eliminate manual instantiation
+
+## Security Guidelines
+
+### Credential Management
+
+- Never hardcode passwords, API keys, or tokens in test files
+- Use environment variables for all sensitive data
+- Store secrets in CI/CD platform secret management systems
+- Use `.env` files for local development with `.gitignore` protection
+- Access environment variables through `envUtils.ts`
 
 ## Coding Standards
 
 ### Naming Conventions
 
-- Use camelCase for variable and function names
-- Use PascalCase for class names (Page Objects, components)
-- Use UPPER_SNAKE_CASE for constants
-- Use descriptive names for test files ending with `.spec.ts`
 - Page objects should end with `Page` (e.g., `MainPage`, `LoginPage`)
 - Locator objects should end with `Locators` (e.g., `mainPageLocators`)
+- Test files should end with `.spec.ts`
 
-### Code Style
+### Project-Specific Code Patterns
 
-- Use single quotes for strings
-- Use 2 spaces for indentation
-- Use arrow functions for callbacks
-- Use async/await for asynchronous code
-- Use const for constants and let for variables that will be reassigned
-- Use destructuring for objects and arrays
-- Use template literals for strings that contain variables
-- Use `as const` for locator objects to ensure type safety
-- Use TypeScript path aliases (`@/*`) for all internal imports
+#### Page Object Implementation
+
+```typescript
+// All page classes extend BasePage and import locators
+import {BasePage} from '@/core/BasePage'
+import {mainPageLocators} from '@/locators/mainPageLocators'
+
+export class MainPage extends BasePage {
+  constructor(page: Page) {
+    super(page)
+  }
+}
+```
+
+#### Test Structure with Custom Fixtures
+
+```typescript
+// Always import from custom fixtures, not base Playwright
+import test from '@/fixtures/testSetup'
+
+test('example test', async ({mainPage}) => {
+  // Use destructured page objects from fixtures
+})
+```
+
+#### Locator Definitions
+
+```typescript
+// Use 'as const' for type safety and support role-based locators
+export const mainPageLocators = {
+  loginButton: 'button[data-testid="login"]',
+  headerTitle: {role: 'heading', name: 'Welcome'},
+} as const
+```
 
 ### Playwright-Specific Guidelines
 
@@ -62,6 +98,11 @@ src/
 - Use `as const` for type safety
 - Support both string locators and role objects: `{role: string; name: string}`
 - Prefer role-based locators for accessibility
+- Framework supports multiple locator strategies with automatic fallback:
+  1. Generic CSS/XPath selectors
+  2. getByLabel for form elements
+  3. getByText for text-based elements
+  4. getByRole for accessibility-based selection
 
 #### Test Structure
 
@@ -70,116 +111,70 @@ src/
 - Structure tests with clear arrange-act-assert patterns
 - Use proper TypeScript types for page objects and test data
 
-#### Utilities and Helpers
+#### Environment Variables
 
-- Environment variables should be accessed through `envUtils.ts`
-- Create helper functions for common operations
-- Use proper error handling with descriptive messages
+```typescript
+// Always access environment variables through envUtils.ts
+import {getEnvCredentials} from '@/helpers/envUtils'
 
-### Test Organization
+const baseUrl = getEnvCredentials('BASE_URL') // Validates and provides fallback
+```
 
-- Group related tests in describe blocks
-- Use descriptive test names that explain the expected behavior
-- Keep tests independent and atomic
-- Use beforeEach/afterEach for common setup/cleanup
+### Framework-Specific Requirements
+
+#### Test Import Pattern
+
 - Import test from custom fixtures: `import test from '@/fixtures/testSetup'`
+- Use destructured page objects from fixtures (e.g., `{mainPage}`)
 
-### Error Handling
+#### Locator Strategy Priority
+
+- Framework supports multiple locator strategies with automatic fallback:
+  1. Generic CSS/XPath selectors
+  2. getByLabel for form elements
+  3. getByText for text-based elements
+  4. getByRole for accessibility-based selection
+
+#### Test Organization Standards
+
+- Use test tags for selective execution: `test.describe.configure({ tag: '@smoke' })`
+- Import test from custom fixtures: `import test from '@/fixtures/testSetup'`
+- Structure tests with clear arrange-act-assert patterns
+- Keep tests independent and atomic
+
+### Error Handling and Debugging
 
 - Throw descriptive errors with context
 - Use try-catch blocks for fallback locator strategies
 - Validate environment variables with meaningful error messages
 - Handle both exact text and contains text validation
+- Implement custom error types for specific scenarios
+- Configure timeout strategies for different test types
+- Use console.log strategically for debugging complex flows
+- Leverage Playwright's built-in debugging tools (trace viewer, inspector)
 
-## Architecture Patterns
+## Environment Configuration
 
-### Locator Strategy
-
-The framework supports multiple locator strategies with automatic fallback:
-
-1. Generic CSS/XPath selectors
-2. getByLabel for form elements
-3. getByText for text-based elements
-4. getByRole for accessibility-based selection
-
-### Fixture Pattern
-
-Tests use custom fixtures that provide pre-configured page object instances, eliminating the need to manually instantiate page objects in each test.
-
-### Inheritance Pattern
-
-- `LocatorUtils` provides locator extraction logic
-- `BasePage` extends `LocatorUtils` and adds common page actions
-- Specific page classes extend `BasePage` for page-specific functionality
-
-### Data Management
-
-- Store test data in `@/data` using TypeScript interfaces for type safety
-- Use factories or builders for complex test data creation
-- Separate environment-specific data from test logic
-- Use JSON files for static data, TypeScript objects for dynamic data
-
-### Assertions and Validations
-
-- Use Playwright's native expect assertions over Jest/Chai
-- Create custom assertion helpers for domain-specific validations
-- Use soft assertions for multiple validations in a single test
-- Implement retry logic for dynamic content assertions
-
-### Configuration and Setup
+### Multi-Environment Setup
 
 - Use playwright.config.ts for global test configuration
 - Configure multiple environments (dev, staging, prod) in separate config files
 - Set up global setup/teardown for database seeding or API preparation
 - Configure proper timeouts for different test types
+- Use environment-specific base URLs and configurations
+- Implement environment variable validation on startup
 
-### Reporting and Debugging
+### Test Data Management
 
-- Use Playwright's built-in HTML reporter for CI/CD pipelines
-- Configure trace collection for failed tests
-- Set up screenshot capture on failures
-- Use video recording for complex user journey tests
-
-### Performance Guidelines
-
-- Use waitForLoadState strategically for SPA applications
-- Implement page load performance assertions
-- Use parallel test execution with proper test isolation
-- Configure browser context reuse for test suites
-
-### Mobile and Cross-Browser Testing
-
-- Configure device emulation for mobile testing
-- Set up browser-specific test configurations
-- Use conditional test execution based on browser capabilities
-- Implement responsive design validation helpers
-
-### Continuous Integration
-
-- Configure test parallelization for CI environments
-- Set up proper test categorization (smoke, regression, e2e)
-- Use test tags for selective test execution
-- Configure artifact collection for failed test debugging
+- Store test data in `@/data` using TypeScript interfaces for type safety
+- Use factories or builders for complex test data creation
+- Separate environment-specific data from test logic
+- Use JSON files for static data, TypeScript objects for dynamic data
+- Implement test data cleanup strategies
+- Use database seeding for integration tests
 
 ## Best Practices
 
 - Keep page objects focused on a single page or component
 - Use helper functions for common operations to avoid duplication
-- Use TypeScript interfaces for test data to ensure type safety
-- Use descriptive error messages for better debugging
 - Implement retry logic for flaky tests
-
-**Credential Management**
-
-- Never hardcode passwords, API keys, or tokens in test files
-- Use environment variables for all sensitive data
-- Store secrets in CI/CD platform secret management systems
-- Use `.env` files for local development with `.gitignore` protection
-
-## Communication Guidelines
-
-- If I tell you that you are wrong, think about whether or not you think that's true and respond with facts
-- Avoid apologizing or making conciliatory statements
-- It is not necessary to agree with the user with statements such as "You're right" or "Yes"
-- Avoid hyperbole and excitement, stick to the task at hand and complete it pragmatically
-- Focus on providing accurate, actionable code solutions and technical guidance

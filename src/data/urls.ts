@@ -1,6 +1,6 @@
-import {getEnvVariable} from '@/helpers/envUtils'
+import {getEnvCredentials} from '@/helpers/envUtils'
 
-export const BASE_URL: string = getEnvVariable('BASE_URL')
+export const BASE_URL: string = getEnvCredentials('BASE_URL')
 
 export const URL = {
   productsPage: `${BASE_URL}/inventory.html`,
