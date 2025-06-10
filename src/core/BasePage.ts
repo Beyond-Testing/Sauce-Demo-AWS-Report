@@ -2,7 +2,9 @@ import {LocatorUtils} from '@/core/LocatorUtils'
 import type {Locator, Page} from '@playwright/test'
 import {expect} from '@playwright/test'
 
-type stringOrRoleLocatorType = string | {role: string; name: string}
+type stringOrRoleLocatorType =
+  | string
+  | {parent?: string; role: string; name: string}
 
 export class BasePage extends LocatorUtils {
   constructor(page: Page) {
@@ -46,5 +48,11 @@ export class BasePage extends LocatorUtils {
   protected async fillInput(locator: string, text: string): Promise<void> {
     const extractedLocator: Locator = this.extractLocator(locator)
     await extractedLocator.fill(text)
+  }
+  protected async hoverOnElement(
+    locator: stringOrRoleLocatorType,
+  ): Promise<void> {
+    const extractedLocator: Locator = this.extractLocator(locator)
+    await extractedLocator.hover()
   }
 }
