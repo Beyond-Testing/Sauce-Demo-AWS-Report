@@ -27,9 +27,7 @@ export class LocatorUtils {
         continue
       }
     }
-    throw new Error(
-      `Unable to find element with string locator: ${JSON.stringify(locator)}`,
-    )
+    throw new Error(`Unable to find element with string locator: ${locator}`)
   }
 
   // Handle Generic Locator, byRole, byLabel, byText, and parent-child combinations
