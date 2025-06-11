@@ -1,4 +1,4 @@
-type ProductLocators = {
+type ProductPageLocators = {
   cartButton: string
   title: string
   openHamburgerMenu: {
@@ -9,7 +9,7 @@ type ProductLocators = {
   addToCartItem: (item: string) => string
 }
 
-export const PRODUCT_LOCATORS: ProductLocators = {
+export const PRODUCT_PAGE_LOCATORS: ProductPageLocators = {
   cartButton: '[data-test="shopping-cart-link"]',
   title: '[data-test="title"]',
   openHamburgerMenu: {

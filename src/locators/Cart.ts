@@ -1,4 +1,4 @@
-type CartLocators = {
+type CartPageLocators = {
   title: string
   cartBadge: string
   checkoutButton: string
@@ -8,7 +8,7 @@ type CartLocators = {
   cartItem: (number: number) => string
 }
 
-export const CART_LOCATORS: CartLocators = {
+export const CART_PAGE_LOCATORS: CartPageLocators = {
   title: '[data-test="title"]',
   cartBadge: '[data-test="shopping-cart-badge"]',
   checkoutButton: '[data-test="checkout"]',

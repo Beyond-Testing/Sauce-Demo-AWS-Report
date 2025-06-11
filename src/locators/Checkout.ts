@@ -1,4 +1,4 @@
-type CheckoutLocators = {
+type CheckoutPageLocators = {
   title: string
   firstNameField: string
   lastNameField: string
@@ -6,7 +6,7 @@ type CheckoutLocators = {
   continueButton: string
 }
 
-export const CHECKOUT_LOCATORS: CheckoutLocators = {
+export const CHECKOUT_PAGE_LOCATORS: CheckoutPageLocators = {
   title: '[data-test="title"]',
   firstNameField: '[data-test="firstName"]',
   lastNameField: '[data-test="lastName"]',
