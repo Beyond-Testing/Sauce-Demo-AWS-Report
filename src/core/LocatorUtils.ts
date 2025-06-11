@@ -27,7 +27,9 @@ export class LocatorUtils {
         continue
       }
     }
-    throw new Error(`Unable to find element with string locator: ${locator}`)
+    throw new Error(
+      `Unable to find element with string locator: ${JSON.stringify(locator)}`,
+    )
   }
 
   // Handle Generic Locator, byRole, byLabel, byText, and parent-child combinations
@@ -46,7 +48,9 @@ export class LocatorUtils {
         return this.page.getByRole(role as any, {name: name})
       }
     } catch {
-      throw new Error(`Unable to find element with locator: ${locator}`)
+      throw new Error(
+        `Unable to find element with locator: ${JSON.stringify(locator)}`,
+      )
     }
   }
 }

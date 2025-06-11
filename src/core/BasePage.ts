@@ -24,7 +24,9 @@ export class BasePage extends LocatorUtils {
         await expect(extractedLocator).toContainText(text)
       } catch (error) {
         throw new Error(
-          `Element with locator "${locator}" does not contain text "${text}". Error: ${error}`,
+          `Element with locator "${JSON.stringify(
+            locator,
+          )}" does not contain text "${text}". Error: ${error}`,
         )
       }
     }
