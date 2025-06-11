@@ -43,7 +43,7 @@ src/
 ### Naming Conventions
 
 - Page objects should end with `Page` (e.g., `MainPage`, `LoginPage`)
-- Locator objects should end with `Locators` (e.g., `mainPageLocators`)
+- Locator objects should use `UPPER_SNAKE_CASE` with `_LOCATORS` suffix (e.g., `MAIN_PAGE_LOCATORS`)
 - Test files should end with `.spec.ts`
 
 ### Project-Specific Code Patterns
@@ -53,11 +53,24 @@ src/
 ```typescript
 // All page classes extend BasePage and import locators
 import {BasePage} from '@/core/BasePage'
-import {mainPageLocators} from '@/locators/mainPageLocators'
+import {BASE_URL} from '@/data/urls'
+import test from '@/fixtures/testSetup'
+import {MAIN_PAGE_LOCATORS} from '@/locators/Main_Page'
+import {type Page} from '@playwright/test'
 
 export class MainPage extends BasePage {
   constructor(page: Page) {
     super(page)
+  }
+
+  async openMainPage(): Promise<void> {
+    await test.step('Open main page', async () => {
+      await this.page.goto(BASE_URL)
+      await this.validateText(
+        MAIN_PAGE_LOCATORS.importantFactsTitle,
+        'עובדות שחשוב שתדע',
+      )
+    })
   }
 }
 ```
@@ -68,8 +81,8 @@ export class MainPage extends BasePage {
 // Always import from custom fixtures, not base Playwright
 import test from '@/fixtures/testSetup'
 
-test('example test', async ({mainPage}) => {
-  // Use destructured page objects from fixtures
+test('test', async ({mainPage}) => {
+  await mainPage.openMainPage()
 })
 ```
 
@@ -77,9 +90,11 @@ test('example test', async ({mainPage}) => {
 
 ```typescript
 // Use 'as const' for type safety and support role-based locators
-export const mainPageLocators = {
-  loginButton: 'button[data-testid="login"]',
-  headerTitle: {role: 'heading', name: 'Welcome'},
+export const MAIN_PAGE_LOCATORS = {
+  importantFactsTitle: {
+    role: 'heading',
+    name: 'עובדות שחשוב שתדע',
+  },
 } as const
 ```
 
@@ -94,15 +109,12 @@ export const mainPageLocators = {
 
 #### Locators
 
-- Define locators in separate files using role-based or string strategies
+- Define locators in separate files using role-based strategies for accessibility
+- Use `UPPER_SNAKE_CASE` naming convention for locator constants
 - Use `as const` for type safety
 - Support both string locators and role objects: `{role: string; name: string}`
-- Prefer role-based locators for accessibility
-- Framework supports multiple locator strategies with automatic fallback:
-  1. Generic CSS/XPath selectors
-  2. getByLabel for form elements
-  3. getByText for text-based elements
-  4. getByRole for accessibility-based selection
+- Prefer role-based locators for accessibility compliance
+- Framework supports locator objects with parent selectors: `{parent?: string; role: string; name: string}`
 
 #### Test Structure
 
@@ -110,6 +122,7 @@ export const mainPageLocators = {
 - Use destructured page objects from fixtures (e.g., `{mainPage}`)
 - Structure tests with clear arrange-act-assert patterns
 - Use proper TypeScript types for page objects and test data
+- BasePage provides protected `validateText()` method for text validation
 
 #### Environment Variables
 
@@ -117,7 +130,7 @@ export const mainPageLocators = {
 // Always access environment variables through envUtils.ts
 import {getEnvCredentials} from '@/helpers/envUtils'
 
-const baseUrl = getEnvCredentials('BASE_URL') // Validates and provides fallback
+const BASE_URL = getEnvCredentials('BASE_URL') // Validates and provides fallback
 ```
 
 ### Framework-Specific Requirements
@@ -126,6 +139,7 @@ const baseUrl = getEnvCredentials('BASE_URL') // Validates and provides fallback
 
 - Import test from custom fixtures: `import test from '@/fixtures/testSetup'`
 - Use destructured page objects from fixtures (e.g., `{mainPage}`)
+- Use `test.step()` for organizing page object methods with descriptive names
 
 #### Locator Strategy Priority
 
@@ -134,6 +148,8 @@ const baseUrl = getEnvCredentials('BASE_URL') // Validates and provides fallback
   2. getByLabel for form elements
   3. getByText for text-based elements
   4. getByRole for accessibility-based selection
+- Current implementation uses `extractLocator()` method in LocatorUtils for strategy handling
+- Locator type: `string | {parent?: string; role: string; name: string}`
 
 #### Test Organization Standards
 
