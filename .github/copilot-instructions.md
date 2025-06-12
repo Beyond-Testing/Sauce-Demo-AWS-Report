@@ -30,7 +30,7 @@ import {BasePage} from '@/core/BasePage'
 import {BASE_URL} from '@/data/urls'
 import test from '@/fixtures/testSetup'
 import {MAIN_PAGE_LOCATORS} from '@/locators/Main_Page'
-import {type Page} from '@playwright/test'
+import type {Page} from '@playwright/test'
 
 export class MainPage extends BasePage {
   constructor(page: Page) {
