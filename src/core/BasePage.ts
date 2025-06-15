@@ -51,10 +51,38 @@ export class BasePage extends LocatorUtils {
     const extractedLocator: Locator = this.extractLocator(locator)
     await extractedLocator.fill(text)
   }
+  // Hover on an element
   protected async hoverOnElement(
     locator: stringOrRoleLocatorType,
   ): Promise<void> {
     const extractedLocator: Locator = this.extractLocator(locator)
     await extractedLocator.hover()
+  }
+
+  // Validate that an element is visible
+  protected async validateVisibility(
+    locator: stringOrRoleLocatorType,
+  ): Promise<void> {
+    const extractedLocator = this.extractLocator(locator)
+    try {
+      await expect(extractedLocator).toBeVisible()
+    } catch {
+      try {
+        await expect(extractedLocator.first()).toBeVisible()
+      } catch {
+        throw new Error(
+          `Element with locator "${JSON.stringify(locator)}" is not visible.`,
+        )
+      }
+    }
+  }
+
+  // Wait for an element to be in a specific state
+  protected async waitForSelectorState(
+    locator: string,
+    options?: {state?: 'attached' | 'detached' | 'visible' | 'hidden'},
+  ): Promise<void> {
+    await this.page.waitForSelector(locator, {state: options?.state})
+    await this.validateVisibility(locator)
   }
 }
