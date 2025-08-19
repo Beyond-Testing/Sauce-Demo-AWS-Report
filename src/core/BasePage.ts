@@ -51,7 +51,6 @@ export class BasePage extends LocatorUtils {
     const extractedLocator: Locator = this.extractLocator(locator)
     await extractedLocator.fill(text)
   }
-  
   // Hover on an element
   protected async hoverOnElement(
     locator: stringOrRoleLocatorType,
